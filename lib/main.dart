@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255,0,156,134)),
         useMaterial3: true,
       ),
-      home: const AddTask(),
+      home: const LoginScreen(),
     );
   }
 }

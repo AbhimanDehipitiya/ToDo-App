@@ -5,9 +5,11 @@ import 'package:todo_app/assets/myassets.dart';
 import 'package:todo_app/screens/LoginScreen.dart';
 import 'package:todo_app/assets/myassets.dart';
 import 'package:todo_app/screens/addtask.dart';
+import 'package:todo_app/authentication/userdata.dart';
 
 class Dashboard extends StatefulWidget {
-  const Dashboard({super.key});
+  //final Userdata
+  const Dashboard({super.key, required Userdata user});
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -16,7 +18,6 @@ class Dashboard extends StatefulWidget {
 class _DashboardState extends State<Dashboard> {
   final searchbarController = TextEditingController();
 
-  
 
   Color color1 =  Myassets.colorgreen;
   Color color2 =  Myassets.colorblack;
@@ -51,6 +52,7 @@ class _DashboardState extends State<Dashboard> {
         ),
         title: const Column(
           children: [
+            SizedBox(height: 20,),
             Align(
                 alignment: Alignment.topLeft,
                 child: Text(

@@ -36,10 +36,10 @@ class _AddTaskState extends State<AddTask> {
           actions: [
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Dashboard()),
-                );
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => const Dashboard()),
+                // );
               },
               child: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10),
@@ -93,6 +93,19 @@ class _AddTaskState extends State<AddTask> {
                       const SizedBox(
                         height: 20,
                       ),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          'Add A Task',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Myassets.colorblack,
+                              fontSize: 25),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       TextFormField(
                         //controller: emailController,
                         decoration: InputDecoration(
@@ -110,7 +123,7 @@ class _AddTaskState extends State<AddTask> {
                             labelText: 'Task Title',
                             labelStyle: const TextStyle(fontSize: 20)),
                       ),
-                        TextFormField(
+                      TextFormField(
                         //controller: emailController,
                         decoration: InputDecoration(
                             hintText: 'Enter the description',
@@ -127,7 +140,6 @@ class _AddTaskState extends State<AddTask> {
                             labelText: 'Task Description',
                             labelStyle: const TextStyle(fontSize: 20)),
                       ),
-                    
                     ],
                   )))
         ]));

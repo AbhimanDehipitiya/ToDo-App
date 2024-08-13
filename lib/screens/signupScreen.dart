@@ -4,8 +4,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:show_hide_password/show_hide_password_text_field.dart';
 import 'package:todo_app/assets/myassets.dart';
+import 'package:todo_app/authentication/userdata.dart';
 import 'package:todo_app/screens/dashboard.dart';
 import 'package:todo_app/screens/loginScreen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -15,12 +17,12 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  String err = "";
-
+  
+  Userdata user1 = Userdata();
   final emailController = TextEditingController();
   final passwordController1 = TextEditingController();
   final passwordController2 = TextEditingController();
-  final phoneController = TextEditingController();
+  final nameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +64,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           height: 10,
                         ),
                         TextFormField(
-                          controller: phoneController,
+                          controller: nameController,
                           decoration: InputDecoration(
                             hintText: 'Enter the Name',
                             hintStyle: Theme.of(context)
@@ -133,31 +135,48 @@ class _SignupScreenState extends State<SignupScreen> {
                             try {
                               if (passwordController1.text ==
                                   passwordController2.text) {
-                                await FirebaseAuth.instance
+                                final credentials = await FirebaseAuth.instance
                                     .createUserWithEmailAndPassword(
                                   email: emailController.text,
                                   password: passwordController1.text,
                                 );
+                                await FirebaseAuth.instance
+                                      .signInWithEmailAndPassword(
+                                    email: emailController.text,
+                                    password: passwordController1.text,
+                                  );
+                                String uid = credentials.user!.uid;
+                                await FirebaseFirestore.instance.collection("users").doc(uid).set({
+                                  "id": uid,
+                                  "userName": nameController.text,
+                                  // ... other params
+                                });
+                                  user1.id = uid;
                               }
-                              await FirebaseAuth.instance
-                                  .signInWithEmailAndPassword(
-                                email: emailController.text,
-                                password: passwordController1.text,
-                              );
+
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => const Dashboard()),
+                                    builder: (context) => Dashboard(user: user1,)),
                               );
-                            } on FirebaseAuthException catch (error) {
-                              if (passwordController1.text ==
-                                  passwordController2.text){
-                                     Fluttertoast.showToast(msg: 'Passwords are not matching',gravity: ToastGravity.TOP,textColor: Theme.of(context).primaryColor, backgroundColor: Color.fromARGB(149, 164, 236, 220));
-                                
-                                  }else{
-                                     Fluttertoast.showToast(msg: error.message.toString(),gravity: ToastGravity.TOP,textColor: Theme.of(context).primaryColor, backgroundColor: Color.fromARGB(149, 164, 236, 220));
-                                  }
-                                   }
+                            } on FirebaseException catch (error) {
+                              if (passwordController1.text !=
+                                  passwordController2.text) {
+                                Fluttertoast.showToast(
+                                    msg: 'Passwords are not matching',
+                                    gravity: ToastGravity.TOP,
+                                    textColor: Theme.of(context).primaryColor,
+                                    backgroundColor:
+                                        Color.fromARGB(149, 164, 236, 220));
+                              } else {
+                                Fluttertoast.showToast(
+                                    msg: error.message.toString(),
+                                    gravity: ToastGravity.TOP,
+                                    textColor: Theme.of(context).primaryColor,
+                                    backgroundColor:
+                                        Color.fromARGB(149, 164, 236, 220));
+                              }
+                            }
                           },
                           child: const Text('Signup'),
                         ),

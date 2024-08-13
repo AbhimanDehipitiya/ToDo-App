@@ -3,6 +3,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:show_hide_password/show_hide_password_text_field.dart';
 import 'package:todo_app/assets/myassets.dart';
+import 'package:todo_app/authentication/userdata.dart';
 import 'package:todo_app/screens/dashboard.dart';
 import 'package:todo_app/screens/SignupScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,6 +17,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
 
+  Userdata user1 = Userdata();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -97,18 +99,19 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             ElevatedButton(
                               onPressed: () async {
-                                
                                 try {
-                                  await FirebaseAuth.instance
+                                  final credentials = await FirebaseAuth.instance
                                       .signInWithEmailAndPassword(
                                     email: emailController.text,
                                     password: passwordController.text,
                                   );
+                                  String uid = credentials.user!.uid;
+                                  user1.id = uid;
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const Dashboard()),
+                                            Dashboard(user: user1,)),
                                   );
                                 } on FirebaseAuthException catch (error) {
                                     Fluttertoast.showToast(msg: error.message.toString(),gravity: ToastGravity.TOP,textColor: Theme.of(context).primaryColor, backgroundColor: Color.fromARGB(149, 164, 236, 220));

@@ -1,11 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:flutter/material.dart';
+import 'package:todo_app/authentication/userdata.dart';
 import 'package:todo_app/screens/dashboard.dart';
 import 'package:todo_app/screens/loginScreen.dart';
 
 
 class AuthGate extends StatelessWidget {
-  const AuthGate({super.key});
+  AuthGate({super.key});
+
+  Userdata user1 = Userdata();
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +18,9 @@ class AuthGate extends StatelessWidget {
         if (!snapshot.hasData) {
           return const LoginScreen();
         }
-        return const Dashboard();
+        user1.id = snapshot.data!.uid;
+
+        return Dashboard(user: user1,);
       },
     );
   }
