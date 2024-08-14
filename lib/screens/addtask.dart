@@ -3,18 +3,27 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:todo_app/assets/myassets.dart';
+import 'package:todo_app/authentication/userdata.dart';
 import 'package:todo_app/screens/LoginScreen.dart';
 import 'package:todo_app/assets/myassets.dart';
 import 'package:todo_app/screens/dashboard.dart';
 
 class AddTask extends StatefulWidget {
-  const AddTask({super.key});
+  final Userdata user;
+  
+  const AddTask({super.key, required this.user});
 
   @override
   State<AddTask> createState() => _AddTaskState();
 }
 
 class _AddTaskState extends State<AddTask> {
+  List<String> subtasks = [];
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final dateController = TextEditingController();
+  final subtaskController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,10 +45,10 @@ class _AddTaskState extends State<AddTask> {
           actions: [
             GestureDetector(
               onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => const Dashboard()),
-                // );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Dashboard(user: widget.user,)),
+                );
               },
               child: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10),
@@ -85,7 +94,7 @@ class _AddTaskState extends State<AddTask> {
         ),
         body: CustomScrollView(scrollDirection: Axis.vertical, slivers: [
           SliverFillRemaining(
-              hasScrollBody: false,
+              hasScrollBody: true,
               child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
@@ -107,41 +116,163 @@ class _AddTaskState extends State<AddTask> {
                         height: 20,
                       ),
                       TextFormField(
-                        //controller: emailController,
+                        controller: titleController,
                         decoration: InputDecoration(
-                            hintText: 'Enter the title',
-                            hintStyle: Theme.of(context)
+                            labelText: 'Title',
+                            fillColor: Color.fromRGBO(255, 255, 255, 1),
+                            labelStyle: Theme.of(context)
                                 .textTheme
                                 .labelMedium!
                                 .copyWith(color: Colors.black38, fontSize: 20),
-                            floatingLabelStyle:
-                                Theme.of(context).textTheme.titleLarge,
-                            icon: Icon(
-                              Icons.task,
-                              color: Theme.of(context).primaryColor,
+                            filled: true,
+                            prefixIcon: Icon(Icons.title, color: Theme.of(context).primaryColor,),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(color: Myassets.colorgreen, width: 2)
                             ),
-                            labelText: 'Task Title',
-                            labelStyle: const TextStyle(fontSize: 20)),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(color: Myassets.colorgreen, width: 2)
+                            )
+                            ),
+                      ),
+                      const SizedBox(
+                        height: 20,
                       ),
                       TextFormField(
-                        //controller: emailController,
+                        controller: descriptionController,
                         decoration: InputDecoration(
-                            hintText: 'Enter the description',
-                            hintStyle: Theme.of(context)
+                            labelText: 'Description',
+                            fillColor: Color.fromRGBO(255, 255, 255, 1),
+                            labelStyle: Theme.of(context)
                                 .textTheme
                                 .labelMedium!
                                 .copyWith(color: Colors.black38, fontSize: 20),
-                            floatingLabelStyle:
-                                Theme.of(context).textTheme.titleLarge,
-                            icon: Icon(
-                              Icons.note,
-                              color: Theme.of(context).primaryColor,
+                            filled: true,
+                            prefixIcon: Icon(Icons.note, color: Theme.of(context).primaryColor,),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(color: Myassets.colorgreen, width: 2)
                             ),
-                            labelText: 'Task Description',
-                            labelStyle: const TextStyle(fontSize: 20)),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(color: Myassets.colorgreen, width: 2)
+                            )
+                            ),
                       ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      TextFormField(
+                        controller: dateController,
+                        onTap: () {
+                          selectDate();
+                        },
+                        decoration: InputDecoration(
+                            labelText: 'Deadline',
+                            fillColor: Color.fromRGBO(255, 255, 255, 1),
+                            labelStyle: Theme.of(context)
+                                .textTheme
+                                .labelMedium!
+                                .copyWith(color: Colors.black38, fontSize: 20),
+                            filled: true,
+                            prefixIcon: Icon(Icons.calendar_today, color: Theme.of(context).primaryColor,),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(color: Myassets.colorgreen, width: 2)
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(color: Myassets.colorgreen, width: 2)
+                            )
+                            ),
+                            readOnly: true,
+                      ),
+                      const SizedBox(height: 20,),
+                      TextFormField(
+                        controller: subtaskController,
+                        decoration: InputDecoration(
+                            labelText: 'Add Subtask',
+                            fillColor: Color.fromRGBO(255, 255, 255, 1),
+                            labelStyle: Theme.of(context)
+                                .textTheme
+                                .labelMedium!
+                                .copyWith(color: Colors.black38, fontSize: 20),
+                            filled: true,
+                            suffixIcon: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  subtasks.add(subtaskController.text);
+                                  subtaskController.clear();
+                                });
+                              },
+                              child: Padding(padding: const EdgeInsets.symmetric(horizontal: 5),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Myassets.colorgreen,
+                                  borderRadius: BorderRadius.circular(10)
+                                ),
+                                
+                                child: const Icon(Icons.add_outlined, color: Color.fromRGBO(255, 255, 255, 1),),
+                              ),)
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(color: Myassets.colorgreen, width: 2)
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                              borderSide: BorderSide(color: Myassets.colorgreen, width: 2)
+                            )
+                            ),
+                      ),
+                      const SizedBox(height: 20,),
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: subtasks.length,
+                          itemBuilder: (BuildContext, int index) {
+                            return GestureDetector(
+                              onDoubleTap: (){
+                                setState(() {
+                                  subtasks.removeAt(index);
+                                });
+                              },
+                              child: Card(
+                                color: Myassets.colorgreen,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                      padding: const EdgeInsets.all(10),
+                                      child: Text(
+                                        subtasks[index],
+                                        style: const TextStyle(
+                                            color: Color.fromRGBO(
+                                                255, 255, 255, 1),
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 20),
+                                      )),
+                                )),
+                            );
+                          },
+                        ),
+                      )
                     ],
                   )))
         ]));
+  }
+
+  Future<void> selectDate() async {
+    DateTime? picked = await showDatePicker(
+
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(2000),
+        lastDate: DateTime(2100));
+
+    if (picked != null) {
+      setState(() {
+        dateController.text = picked.toString().split(" ")[0];
+      });
+    }
   }
 }

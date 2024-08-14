@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:todo_app/assets/myassets.dart';
 import 'package:todo_app/screens/LoginScreen.dart';
 import 'package:todo_app/assets/myassets.dart';
@@ -8,8 +9,10 @@ import 'package:todo_app/screens/addtask.dart';
 import 'package:todo_app/authentication/userdata.dart';
 
 class Dashboard extends StatefulWidget {
+  final Userdata user;
+
   //final Userdata
-  const Dashboard({super.key, required Userdata user});
+  const Dashboard({super.key, required this.user});
 
   @override
   State<Dashboard> createState() => _DashboardState();
@@ -17,7 +20,6 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   final searchbarController = TextEditingController();
-
 
   Color color1 =  Myassets.colorgreen;
   Color color2 =  Myassets.colorblack;
@@ -36,7 +38,7 @@ class _DashboardState extends State<Dashboard> {
         onPressed: () {
           Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const AddTask()),
+              MaterialPageRoute(builder: (context) => AddTask(user: widget.user,)),
             );
         },
         //tooltip: 'Increment Counter',
@@ -76,6 +78,25 @@ class _DashboardState extends State<Dashboard> {
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(bottom: Radius.circular(30)),
         ),
+        actions: [
+            GestureDetector(
+              onTap: () async {
+                await FirebaseAuth.instance.signOut();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const LoginScreen()),
+                );
+              },
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Icon(
+                  Iconsax.logout_copy,
+                  size: 50,
+                  color: Color.fromARGB(255, 255, 255, 255),
+                ),
+              ),
+            )
+          ],
       ),
       body: Column(
         children: [
