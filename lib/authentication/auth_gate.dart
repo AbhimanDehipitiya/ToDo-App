@@ -21,7 +21,7 @@ class AuthGate extends StatelessWidget {
         }
         user1.id = snapshot.data!.uid;
 
-        return AddTask(user: user1,);
+        return Dashboard(user: user1,);
       },
     );
   }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
@@ -16,10 +17,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
   Userdata user1 = Userdata();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  late Future<DocumentSnapshot> userDocument;
 
   @override
   Widget build(BuildContext context) {
@@ -100,21 +101,30 @@ class _LoginScreenState extends State<LoginScreen> {
                             ElevatedButton(
                               onPressed: () async {
                                 try {
-                                  final credentials = await FirebaseAuth.instance
+                                  final credentials = await FirebaseAuth
+                                      .instance
                                       .signInWithEmailAndPassword(
                                     email: emailController.text,
                                     password: passwordController.text,
                                   );
                                   String uid = credentials.user!.uid;
                                   user1.id = uid;
+                                  
+
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            Dashboard(user: user1,)),
+                                        builder: (context) => Dashboard(
+                                              user: user1,
+                                            )),
                                   );
                                 } on FirebaseAuthException catch (error) {
-                                    Fluttertoast.showToast(msg: error.message.toString(),gravity: ToastGravity.TOP,textColor: Theme.of(context).primaryColor, backgroundColor: Color.fromARGB(149, 164, 236, 220));
+                                  Fluttertoast.showToast(
+                                      msg: error.message.toString(),
+                                      gravity: ToastGravity.TOP,
+                                      textColor: Theme.of(context).primaryColor,
+                                      backgroundColor:
+                                          const Color.fromARGB(149, 164, 236, 220));
                                 }
                               },
                               child: const Text('Login'),

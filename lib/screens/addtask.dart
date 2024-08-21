@@ -1,16 +1,20 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:todo_app/assets/myassets.dart';
 import 'package:todo_app/authentication/userdata.dart';
 import 'package:todo_app/screens/LoginScreen.dart';
 import 'package:todo_app/assets/myassets.dart';
 import 'package:todo_app/screens/dashboard.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AddTask extends StatefulWidget {
   final Userdata user;
-  
+
   const AddTask({super.key, required this.user});
 
   @override
@@ -23,13 +27,71 @@ class _AddTaskState extends State<AddTask> {
   final descriptionController = TextEditingController();
   final dateController = TextEditingController();
   final subtaskController = TextEditingController();
+  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
-          //tooltip: 'Increment Counter',
+          onPressed: () async {
+            final db = await FirebaseFirestore.instance;
+
+            final docRef = db.collection("users")
+                    .doc(widget.user.id)
+                    .collection("task_list")
+                    .doc(titleController.text);
+            docRef.get().then(
+              (DocumentSnapshot doc) async {
+                final data = doc.data();
+                if(data == null){
+                  try{
+                    db
+                    .collection("users")
+                    .doc(widget.user.id)
+                    .collection("task_list")
+                    .doc(titleController.text)
+                    .set({
+                  "description": descriptionController.text,
+                  "deadline": dateController.text,
+                  "subtasks": subtasks,
+                  "completed": false,
+                });
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Dashboard(
+                            user: widget.user,
+                          )),
+                );
+                  }
+                  on FirebaseException catch (error){
+                    Fluttertoast.showToast(
+                  msg: error.message.toString(),
+                  gravity: ToastGravity.BOTTOM,
+                  textColor: Theme.of(context).primaryColor,
+                  backgroundColor: Color.fromARGB(149, 164, 236, 220));
+                  }
+                }
+                else{
+                  Fluttertoast.showToast(
+                    msg: 'A task has alredy with this name ',
+                    gravity: ToastGravity.BOTTOM,
+                    textColor: Theme.of(context).primaryColor,
+                    backgroundColor: Color.fromARGB(149, 164, 236, 220));
+                }
+              },
+              onError: (e) {
+                Fluttertoast.showToast(
+                  msg: e.message.toString(),
+                  gravity: ToastGravity.BOTTOM,
+                  textColor: Theme.of(context).primaryColor,
+                  backgroundColor: Color.fromARGB(149, 164, 236, 220));
+                  }
+              
+            );
+
+          },
           child: const Icon(
             Icons.add,
             size: 30,
@@ -47,7 +109,10 @@ class _AddTaskState extends State<AddTask> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => Dashboard(user: widget.user,)),
+                  MaterialPageRoute(
+                      builder: (context) => Dashboard(
+                            user: widget.user,
+                          )),
                 );
               },
               child: const Padding(
@@ -125,16 +190,18 @@ class _AddTaskState extends State<AddTask> {
                                 .labelMedium!
                                 .copyWith(color: Colors.black38, fontSize: 20),
                             filled: true,
-                            prefixIcon: Icon(Icons.title, color: Theme.of(context).primaryColor,),
+                            prefixIcon: Icon(
+                              Icons.title,
+                              color: Theme.of(context).primaryColor,
+                            ),
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(color: Myassets.colorgreen, width: 2)
-                            ),
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                    color: Myassets.colorgreen, width: 2)),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(color: Myassets.colorgreen, width: 2)
-                            )
-                            ),
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                    color: Myassets.colorgreen, width: 2))),
                       ),
                       const SizedBox(
                         height: 20,
@@ -149,16 +216,18 @@ class _AddTaskState extends State<AddTask> {
                                 .labelMedium!
                                 .copyWith(color: Colors.black38, fontSize: 20),
                             filled: true,
-                            prefixIcon: Icon(Icons.note, color: Theme.of(context).primaryColor,),
+                            prefixIcon: Icon(
+                              Icons.note,
+                              color: Theme.of(context).primaryColor,
+                            ),
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(color: Myassets.colorgreen, width: 2)
-                            ),
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                    color: Myassets.colorgreen, width: 2)),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(color: Myassets.colorgreen, width: 2)
-                            )
-                            ),
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                    color: Myassets.colorgreen, width: 2))),
                       ),
                       const SizedBox(
                         height: 20,
@@ -176,23 +245,27 @@ class _AddTaskState extends State<AddTask> {
                                 .labelMedium!
                                 .copyWith(color: Colors.black38, fontSize: 20),
                             filled: true,
-                            prefixIcon: Icon(Icons.calendar_today, color: Theme.of(context).primaryColor,),
+                            prefixIcon: Icon(
+                              Icons.calendar_today,
+                              color: Theme.of(context).primaryColor,
+                            ),
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(color: Myassets.colorgreen, width: 2)
-                            ),
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                    color: Myassets.colorgreen, width: 2)),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(color: Myassets.colorgreen, width: 2)
-                            )
-                            ),
-                            readOnly: true,
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                    color: Myassets.colorgreen, width: 2))),
+                        readOnly: true,
                       ),
-                      const SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       TextFormField(
                         controller: subtaskController,
                         decoration: InputDecoration(
-                            labelText: 'Add Subtask',
+                            labelText: 'Add Subtasks',
                             fillColor: Color.fromRGBO(255, 255, 255, 1),
                             labelStyle: Theme.of(context)
                                 .textTheme
@@ -200,58 +273,63 @@ class _AddTaskState extends State<AddTask> {
                                 .copyWith(color: Colors.black38, fontSize: 20),
                             filled: true,
                             suffixIcon: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  subtasks.add(subtaskController.text);
-                                  subtaskController.clear();
-                                });
-                              },
-                              child: Padding(padding: const EdgeInsets.symmetric(horizontal: 5),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: Myassets.colorgreen,
-                                  borderRadius: BorderRadius.circular(10)
-                                ),
-                                
-                                child: const Icon(Icons.add_outlined, color: Color.fromRGBO(255, 255, 255, 1),),
-                              ),)
-                            ),
+                                onTap: () {
+                                  setState(() {
+                                    subtasks.add(subtaskController.text);
+                                    subtaskController.clear();
+                                  });
+                                },
+                                child: Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(horizontal: 5),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                        color: Myassets.colorgreen,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: const Icon(
+                                      Icons.add_outlined,
+                                      color: Color.fromRGBO(255, 255, 255, 1),
+                                    ),
+                                  ),
+                                )),
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(color: Myassets.colorgreen, width: 2)
-                            ),
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                    color: Myassets.colorgreen, width: 2)),
                             focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
-                              borderSide: BorderSide(color: Myassets.colorgreen, width: 2)
-                            )
-                            ),
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: BorderSide(
+                                    color: Myassets.colorgreen, width: 2))),
                       ),
-                      const SizedBox(height: 20,),
+                      const SizedBox(
+                        height: 20,
+                      ),
                       Expanded(
                         child: ListView.builder(
                           itemCount: subtasks.length,
                           itemBuilder: (BuildContext, int index) {
                             return GestureDetector(
-                              onDoubleTap: (){
+                              onDoubleTap: () {
                                 setState(() {
                                   subtasks.removeAt(index);
                                 });
                               },
                               child: Card(
-                                color: Myassets.colorgreen,
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: Text(
-                                        subtasks[index],
-                                        style: const TextStyle(
-                                            color: Color.fromRGBO(
-                                                255, 255, 255, 1),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20),
-                                      )),
-                                )),
+                                  color: Myassets.colorgreen,
+                                  child: Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: Padding(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Text(
+                                          subtasks[index],
+                                          style: const TextStyle(
+                                              color: Color.fromRGBO(
+                                                  255, 255, 255, 1),
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 20),
+                                        )),
+                                  )),
                             );
                           },
                         ),
@@ -263,7 +341,6 @@ class _AddTaskState extends State<AddTask> {
 
   Future<void> selectDate() async {
     DateTime? picked = await showDatePicker(
-
         context: context,
         initialDate: DateTime.now(),
         firstDate: DateTime(2000),

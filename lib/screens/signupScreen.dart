@@ -152,6 +152,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   // ... other params
                                 });
                                   user1.id = uid;
+                                  user1.name = nameController.text;
                               }
 
                               Navigator.push(
