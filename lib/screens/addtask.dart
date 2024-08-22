@@ -1,14 +1,10 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:todo_app/assets/myassets.dart';
 import 'package:todo_app/authentication/userdata.dart';
-import 'package:todo_app/screens/LoginScreen.dart';
-import 'package:todo_app/assets/myassets.dart';
 import 'package:todo_app/screens/dashboard.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -34,7 +30,7 @@ class _AddTaskState extends State<AddTask> {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            final db = await FirebaseFirestore.instance;
+            final db = FirebaseFirestore.instance;
 
             final docRef = db.collection("users")
                     .doc(widget.user.id)
@@ -70,7 +66,7 @@ class _AddTaskState extends State<AddTask> {
                   msg: error.message.toString(),
                   gravity: ToastGravity.BOTTOM,
                   textColor: Theme.of(context).primaryColor,
-                  backgroundColor: Color.fromARGB(149, 164, 236, 220));
+                  backgroundColor: const Color.fromARGB(149, 164, 236, 220));
                   }
                 }
                 else{
@@ -78,7 +74,7 @@ class _AddTaskState extends State<AddTask> {
                     msg: 'A task has alredy with this name ',
                     gravity: ToastGravity.BOTTOM,
                     textColor: Theme.of(context).primaryColor,
-                    backgroundColor: Color.fromARGB(149, 164, 236, 220));
+                    backgroundColor: const Color.fromARGB(149, 164, 236, 220));
                 }
               },
               onError: (e) {
@@ -86,7 +82,7 @@ class _AddTaskState extends State<AddTask> {
                   msg: e.message.toString(),
                   gravity: ToastGravity.BOTTOM,
                   textColor: Theme.of(context).primaryColor,
-                  backgroundColor: Color.fromARGB(149, 164, 236, 220));
+                  backgroundColor: const Color.fromARGB(149, 164, 236, 220));
                   }
               
             );
@@ -102,7 +98,7 @@ class _AddTaskState extends State<AddTask> {
           shape: const CircularNotchedRectangle(),
           child: Container(height: 50.0),
         ),
-        backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
+        backgroundColor: Myassets.colorwhite,
         appBar: AppBar(
           actions: [
             GestureDetector(
@@ -115,12 +111,12 @@ class _AddTaskState extends State<AddTask> {
                           )),
                 );
               },
-              child: const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: Icon(
                   Iconsax.arrow_circle_left,
                   size: 50,
-                  color: Color.fromARGB(255, 255, 255, 255),
+                  color: Myassets.colorwhite,
                 ),
               ),
             )
@@ -131,13 +127,13 @@ class _AddTaskState extends State<AddTask> {
             Myassets.personImg,
             scale: 1,
           ),
-          title: const Column(
+          title: Column(
             children: [
               Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'Hi, John Patrick',
-                    style: TextStyle(
+                    'Hi, ${widget.user.name}',
+                    style: const TextStyle(
                         color: Color.fromRGBO(255, 255, 255, 1),
                         fontWeight: FontWeight.bold,
                         fontSize: 25),
@@ -145,8 +141,8 @@ class _AddTaskState extends State<AddTask> {
               Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    '20 tasks today',
-                    style: TextStyle(
+                    '${widget.user.numOfTasks} tasks today',
+                    style: const TextStyle(
                         color: Color.fromRGBO(255, 255, 255, 1),
                         fontWeight: FontWeight.bold,
                         fontSize: 20),
@@ -184,7 +180,7 @@ class _AddTaskState extends State<AddTask> {
                         controller: titleController,
                         decoration: InputDecoration(
                             labelText: 'Title',
-                            fillColor: Color.fromRGBO(255, 255, 255, 1),
+                            fillColor: const Color.fromRGBO(255, 255, 255, 1),
                             labelStyle: Theme.of(context)
                                 .textTheme
                                 .labelMedium!
@@ -210,7 +206,7 @@ class _AddTaskState extends State<AddTask> {
                         controller: descriptionController,
                         decoration: InputDecoration(
                             labelText: 'Description',
-                            fillColor: Color.fromRGBO(255, 255, 255, 1),
+                            fillColor: const Color.fromRGBO(255, 255, 255, 1),
                             labelStyle: Theme.of(context)
                                 .textTheme
                                 .labelMedium!
@@ -239,7 +235,7 @@ class _AddTaskState extends State<AddTask> {
                         },
                         decoration: InputDecoration(
                             labelText: 'Deadline',
-                            fillColor: Color.fromRGBO(255, 255, 255, 1),
+                            fillColor: Myassets.colorwhite,
                             labelStyle: Theme.of(context)
                                 .textTheme
                                 .labelMedium!
@@ -266,7 +262,7 @@ class _AddTaskState extends State<AddTask> {
                         controller: subtaskController,
                         decoration: InputDecoration(
                             labelText: 'Add Subtasks',
-                            fillColor: Color.fromRGBO(255, 255, 255, 1),
+                            fillColor: Myassets.colorwhite,
                             labelStyle: Theme.of(context)
                                 .textTheme
                                 .labelMedium!

@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart' hide EmailAuthProvider;
 import 'package:flutter/material.dart';
 import 'package:todo_app/authentication/userdata.dart';
-import 'package:todo_app/screens/addtask.dart';
 import 'package:todo_app/screens/dashboard.dart';
 import 'package:todo_app/screens/loginScreen.dart';
 

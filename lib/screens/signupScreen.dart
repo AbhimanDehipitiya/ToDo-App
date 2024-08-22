@@ -168,14 +168,14 @@ class _SignupScreenState extends State<SignupScreen> {
                                     gravity: ToastGravity.TOP,
                                     textColor: Theme.of(context).primaryColor,
                                     backgroundColor:
-                                        Color.fromARGB(149, 164, 236, 220));
+                                        const Color.fromARGB(149, 164, 236, 220));
                               } else {
                                 Fluttertoast.showToast(
                                     msg: error.message.toString(),
                                     gravity: ToastGravity.TOP,
                                     textColor: Theme.of(context).primaryColor,
                                     backgroundColor:
-                                        Color.fromARGB(149, 164, 236, 220));
+                                        const Color.fromARGB(149, 164, 236, 220));
                               }
                             }
                           },

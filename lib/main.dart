@@ -1,10 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_app/authentication/auth_gate.dart';
-import 'package:todo_app/screens/LoginScreen.dart';
-import 'package:todo_app/screens/addtask.dart';
-import 'package:todo_app/screens/dashboard.dart';
 import 'firebase_options.dart';
 
 
