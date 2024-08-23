@@ -283,15 +283,15 @@ class _DashboardState extends State<Dashboard> {
                   ),
                   child: SearchBar(
                       hintText: 'Search',
-                      hintStyle: WidgetStatePropertyAll(TextStyle(
+                      hintStyle: const WidgetStatePropertyAll(TextStyle(
                           fontSize: 20,
                           color: Myassets.colorgreen,
                           fontWeight: FontWeight.bold)),
-                      textStyle: WidgetStatePropertyAll(TextStyle(
+                      textStyle: const WidgetStatePropertyAll(TextStyle(
                           fontSize: 20,
                           color: Myassets.colorgreen,
                           fontWeight: FontWeight.bold)),
-                      backgroundColor: WidgetStatePropertyAll(
+                      backgroundColor: const WidgetStatePropertyAll(
                           Myassets.colorwhite),
                       controller: searchbarController,
                       padding: const WidgetStatePropertyAll<EdgeInsets>(
@@ -405,7 +405,7 @@ class _DashboardState extends State<Dashboard> {
                           state == 1) {
                         return Align(
                           alignment: Alignment.bottomCenter,
-                          child: Image.asset(Myassets.loadingImg, scale: 6.5),
+                          child: Align(alignment: Alignment.center  ,child: Image.asset(Myassets.loadingImg, scale: 2),) 
                         );
                       }
                       //subtasks.clear();
@@ -417,7 +417,7 @@ class _DashboardState extends State<Dashboard> {
                       state = 0;
                       final documentIds =
                           snapshot.data!.docs.map((doc) => doc.id).toList();
-                      return Flex(direction: Axis.vertical, children: [
+                      return Expanded(child: 
                         ListView.builder(
                           scrollDirection: Axis.vertical,
                           shrinkWrap: true,
@@ -456,7 +456,7 @@ class _DashboardState extends State<Dashboard> {
                             );
                           },
                         ),
-                      ]);
+                      );
                     }),
               )
             ],
@@ -465,4 +465,5 @@ class _DashboardState extends State<Dashboard> {
       },
     );
   }
+  
 }
