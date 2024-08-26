@@ -293,7 +293,7 @@ class _AddTaskState extends State<AddTask> {
                       ),
                       //Flexible(fit: FlexFit.loose,child: subtask(subtasks.length.toInt()),),
                       //subtask(subtasks.length.toInt()),
-                      subtasks.isEmpty? Expanded(child: Align(child:Image.asset(Myassets.subtasksImg, scale: 6), alignment: Alignment.topCenter,)): 
+                      subtasks.isEmpty? Expanded(child: Align(alignment: Alignment.center,child:Image.asset(Myassets.addtaskImg, scale: 3),)): 
                       Expanded(
                         child: ListView.builder(
                           itemCount: subtasks.length,

@@ -1,5 +1,7 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
 import 'package:todo_app/assets/myassets.dart';
 import 'package:todo_app/authentication/userdata.dart';
@@ -101,7 +103,7 @@ class _TaskViewState extends State<TaskView> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                               'Title',
                               style: TextStyle(
                                   color: Myassets.colorblack,
@@ -111,7 +113,7 @@ class _TaskViewState extends State<TaskView> {
                             Container(
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 2, 137, 164),
+                                  color: Color.fromRGBO(25, 118, 210, 1.0),
                                   // border: Border.all(
                                   //   color: Color.fromARGB(255, 0, 69, 242),
                                   //   width: 4,
@@ -142,7 +144,7 @@ class _TaskViewState extends State<TaskView> {
                               height: MediaQuery.of(context).size.height * 0.1,
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 2, 137, 164),
+                                  color: Color.fromRGBO(25, 118, 210, 1.0),
                                   // border: Border.all(
                                   //   color: Color.fromARGB(255, 0, 69, 242),
                                   //   width: 4,
@@ -213,7 +215,6 @@ class _TaskViewState extends State<TaskView> {
                                 ElevatedButton(
                                   onPressed: () => openDialog_state(),
                                   style: ButtonStyle(
-                                    
                                     backgroundColor:
                                         WidgetStateProperty.all<Color>(
                                       widget.user.docSnap!['completed']
@@ -237,8 +238,8 @@ class _TaskViewState extends State<TaskView> {
                                   ),
                                   child: Text(
                                     widget.user.docSnap!['completed']
-                                               ? 'Completed'
-                                               : 'On Progress',
+                                        ? 'Completed'
+                                        : 'On Progress',
                                     style: const TextStyle(
                                         color: Myassets.colorblack,
                                         fontWeight: FontWeight.bold,
@@ -264,6 +265,7 @@ class _TaskViewState extends State<TaskView> {
                             //final List<dynamic> stages = widget.user.docSnap?['subtasks'] ?? [],
                           ],
                         ),
+                        widget.user.docSnap!['subtasks'].isEmpty? Expanded(child: Align(alignment: Alignment.center,child:Image.asset(Myassets.notaskImg, scale: 3),)):
                         Expanded(
                             child: ListView.builder(
                           itemBuilder: (context, int index) {
@@ -308,13 +310,12 @@ class _TaskViewState extends State<TaskView> {
                 ),
                 ElevatedButton(
                   onPressed: () {
+                    updateDocument(false);
                     Navigator.of(context).pop();
                   },
                   style: ButtonStyle(
-                    fixedSize:
-                        WidgetStateProperty.all<Size>(const Size(200, 50)),
                     backgroundColor: WidgetStateProperty.all<Color>(
-                        Color.fromARGB(255, 139, 252, 144)),
+                        const Color.fromARGB(255, 139, 252, 144)),
                     side: WidgetStateProperty.all<BorderSide>(const BorderSide(
                       color: Color.fromARGB(252, 8, 234, 19),
                       width: 4,
@@ -338,11 +339,10 @@ class _TaskViewState extends State<TaskView> {
                 ),
                 ElevatedButton(
                   onPressed: () {
+                    updateDocument(true);
                     Navigator.of(context).pop();
                   },
                   style: ButtonStyle(
-                    fixedSize:
-                        WidgetStateProperty.all<Size>(const Size(200, 50)),
                     backgroundColor: WidgetStateProperty.all<Color>(
                         Color.fromARGB(217, 245, 245, 95)),
                     side: WidgetStateProperty.all<BorderSide>(const BorderSide(
@@ -366,4 +366,43 @@ class _TaskViewState extends State<TaskView> {
               ],
             ),
           )));
+
+  void updateDocument(bool updatedData) async {
+    try {
+      final CollectionReference dbRef = FirebaseFirestore.instance
+          .collection("users")
+          .doc(widget.user.id)
+          .collection("task_list");
+
+      await dbRef
+          .doc(widget.user.docSnap?.id)
+          .update({'completed': updatedData});
+      
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => Dashboard(
+                  user: widget.user,
+                )),
+      );
+
+      Fluttertoast.showToast(
+        msg: "Document updated successfully!",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Color.fromARGB(255, 255, 127, 80),
+        textColor: Myassets.colorblack,
+        fontSize: 16.0,
+      );
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: "Failed to update document: ${e.toString()}",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.BOTTOM,
+        backgroundColor: Color.fromARGB(255, 255, 127, 80),
+        textColor: Myassets.colorblack,
+        fontSize: 16.0,
+      );
+    }
+  }
 }
