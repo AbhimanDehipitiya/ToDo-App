@@ -49,9 +49,12 @@ class _DashboardState extends State<Dashboard> {
       .doc(widget.user.id)
       .collection("task_list");
 
+  late QuerySnapshot<Map<String, dynamic>> querySnapshot;
+
   late Future<QuerySnapshot<Map<String, dynamic>>> tasksDocument_today = dbRef
       .where('completed', isEqualTo: false)
-      .where('deadline', isEqualTo: DateFormat('yyyy-MM-dd').format(DateTime.now()))
+      .where('deadline',
+          isEqualTo: DateFormat('yyyy-MM-dd').format(DateTime.now()))
       .orderBy('deadline', descending: true)
       .get();
   late Future<QuerySnapshot<Map<String, dynamic>>> tasksDocument_upcoming =
@@ -99,6 +102,9 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    final double HEIGHT = MediaQuery.of(context).size.height;
+    final double WIDTH = MediaQuery.of(context).size.width;
+
     return StreamBuilder<User?>(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (context, snapshot) {
@@ -109,431 +115,478 @@ class _DashboardState extends State<Dashboard> {
 
         //return Dashboard(user: user1,);
 
-        return Scaffold(
-          floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-            floatingActionButton: FloatingActionButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => AddTask(
-                            user: widget.user,
-                          )),
-                );
-              },
-              //tooltip: 'Increment Counter',
-              child: const Icon(
-                Icons.add,
-                size: 30,
-              ),
-            ),
-            backgroundColor: Myassets.colorwhite,
-            appBar: AppBar(
-              toolbarHeight: 100,
-              backgroundColor: Myassets.colorgreen,
-              leading: Image.asset(
-                Myassets.personImg,
-                scale: 1,
-              ),
-              title: Column(children: [
-                FutureBuilder<DocumentSnapshot>(
-                    future: userDocument,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting &&
-                          state == 1) {
-                        widget.user.name = 'Waiting...';
-                        return const Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              'Waiting...',
+        return Container(
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    fit: BoxFit.cover, image: AssetImage(Myassets.wallImg))),
+            child: Scaffold(
+                floatingActionButtonLocation:
+                    FloatingActionButtonLocation.centerFloat,
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AddTask(
+                                user: widget.user,
+                              )),
+                    );
+                  },
+                  //tooltip: 'Increment Counter',
+                  child: const Icon(
+                    Icons.add,
+                    size: 30,
+                  ),
+                ),
+
+                //backgroundColor: Myassets.colorwhite,
+                appBar: AppBar(
+                  toolbarHeight: 100,
+                  backgroundColor: Myassets.colorgreen,
+                  leading: Image.asset(
+                    Myassets.personImg,
+                    scale: 1,
+                  ),
+                  title: Column(children: [
+                    FutureBuilder<DocumentSnapshot>(
+                        future: userDocument,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                                  ConnectionState.waiting &&
+                              state == 1) {
+                            widget.user.name = 'Waiting...';
+                            return const Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  'Waiting...',
+                                  style: TextStyle(
+                                      color: Myassets.colorwhite,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 25),
+                                ));
+                          }
+                          if (snapshot.hasError) {
+                            widget.user.name = 'Error!';
+                            return const Center(
+                                child: Text(
+                              'Error!',
                               style: TextStyle(
                                   color: Myassets.colorwhite,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 25),
                             ));
-                      }
-                      if (snapshot.hasError) {
-                        widget.user.name = 'Error!';
-                        return const Center(
-                            child: Text(
-                          'Error!',
-                          style: TextStyle(
-                              color: Myassets.colorwhite,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25),
-                        ));
-                      }
-                      if (!snapshot.hasData || !snapshot.data!.exists) {
-                        widget.user.name = 'User not found.';
-                        return const Center(
-                            child: Text(
-                          'User not found.',
-                          style: TextStyle(
-                              color: Myassets.colorwhite,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 25),
-                        ));
-                      }
+                          }
+                          if (!snapshot.hasData || !snapshot.data!.exists) {
+                            widget.user.name = 'User not found.';
+                            return const Center(
+                                child: Text(
+                              'User not found.',
+                              style: TextStyle(
+                                  color: Myassets.colorwhite,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 25),
+                            ));
+                          }
 
-                      final userData =
-                          snapshot.data!.data() as Map<String, dynamic>;
-                      final username = userData['userName'] ?? 'No username';
-                      widget.user.name = username;
+                          final userData =
+                              snapshot.data!.data() as Map<String, dynamic>;
+                          final username =
+                              userData['userName'] ?? 'No username';
+                          widget.user.name = username;
 
-                      return Align(
+                          return Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                'Hi, $username',
+                                style: const TextStyle(
+                                    color: Myassets.colorwhite,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 25),
+                              ));
+                        }),
+                    FutureBuilder(
+                        future: tasksDocument_today,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                                  ConnectionState.waiting &&
+                              state == 1) {
+                            widget.user.name = 'Waiting...';
+                            return const Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  'Waiting...',
+                                  style: TextStyle(
+                                      color: Myassets.colorwhite,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ));
+                          }
+                          if (snapshot.hasError) {
+                            widget.user.name = 'Error!';
+                            return const Center(
+                                child: Text(
+                              'Error!',
+                              style: TextStyle(
+                                  color: Myassets.colorwhite,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20),
+                            ));
+                          }
+                          if (!snapshot.hasData) {
+                            widget.user.name = '0 tasks today';
+                            return const Align(
+                                alignment: Alignment.topLeft,
+                                child: Text(
+                                  '0 tasks today',
+                                  style: TextStyle(
+                                      color: Myassets.colorwhite,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ));
+                          }
+
+                          final documentCount = snapshot.data!.docs.length;
+                          widget.user.numOfTasks = documentCount;
+
+                          return Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                '$documentCount tasks today',
+                                style: const TextStyle(
+                                    color: Myassets.colorwhite,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              ));
+                        })
+                  ]),
+                  shape: const RoundedRectangleBorder(
+                    borderRadius:
+                        BorderRadius.vertical(bottom: Radius.circular(30)),
+                  ),
+                  actions: [
+                    GestureDetector(
+                      onTap: () async {
+                        await FirebaseAuth.instance.signOut();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginScreen()),
+                        );
+                      },
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Icon(
+                          Iconsax.logout_copy,
+                          size: 50,
+                          color: Myassets.colorwhite,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+                body: Padding(
+                  padding:
+                      const EdgeInsetsDirectional.symmetric(horizontal: 20),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: HEIGHT * 0.025,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: const Color.fromARGB(132, 0, 0, 0),
+                            width: 2.0,
+                          ),
+                          borderRadius: BorderRadius.circular(30.0),
+                        ),
+                        child: SearchBar(
+                            hintText: 'Search',
+                            shadowColor: const WidgetStatePropertyAll(
+                                Myassets.colorwhite),
+                            hintStyle: const WidgetStatePropertyAll(TextStyle(
+                                fontSize: 20,
+                                color: Myassets.colorgreen,
+                                fontWeight: FontWeight.bold)),
+                            textStyle: const WidgetStatePropertyAll(TextStyle(
+                                fontSize: 20,
+                                color: Myassets.colorgreen,
+                                fontWeight: FontWeight.bold)),
+                            backgroundColor: const WidgetStatePropertyAll(
+                                Myassets.colorwhite),
+                            controller: _searchController,
+                            padding: const WidgetStatePropertyAll<EdgeInsets>(
+                                EdgeInsets.symmetric(horizontal: 20)),
+                            onChanged: (query) {
+                              _searchDocuments(query);
+                              if (_searchResults.isNotEmpty) {
+                                Container(
+                                  color: Colors.grey[200],
+                                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                                  child: Expanded(
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      itemCount: _searchResults.length,
+                                      itemBuilder: (context, index) {
+                                        final doc = _searchResults[index];
+                                        final name = doc['name'];
+                                        return ListTile(
+                                          title: Text(name),
+                                          subtitle: Text(doc.id),
+                                          onTap: () {
+                                            // Handle document tap
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                            trailing: const <Widget>[
+                              Icon(
+                                Icons.search,
+                                size: 40,
+                              ),
+                            ]),
+                      ),
+                      SizedBox(
+                        height: HEIGHT * 0.025,
+                      ),
+                      const Align(
                           alignment: Alignment.topLeft,
                           child: Text(
-                            'Hi, $username',
-                            style: const TextStyle(
-                                color: Myassets.colorwhite,
+                            'My tasks',
+                            style: TextStyle(
+                                color: Myassets.colorblack,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 25),
-                          ));
-                    }),
-                FutureBuilder(
-                    future: tasksDocument_today,
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting &&
-                          state == 1) {
-                        widget.user.name = 'Waiting...';
-                        return const Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              'Waiting...',
-                              style: TextStyle(
-                                  color: Myassets.colorwhite,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20),
-                            ));
-                      }
-                      if (snapshot.hasError) {
-                        widget.user.name = 'Error!';
-                        return const Center(
-                            child: Text(
-                          'Error!',
-                          style: TextStyle(
-                              color: Myassets.colorwhite,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20),
-                        ));
-                      }
-                      if (!snapshot.hasData) {
-                        widget.user.name = '0 tasks today';
-                        return const Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              '0 tasks today',
-                              style: TextStyle(
-                                  color: Myassets.colorwhite,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20),
-                            ));
-                      }
-
-                      final documentCount = snapshot.data!.docs.length;
-                      widget.user.numOfTasks = documentCount;
-
-                      return Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            '$documentCount tasks today',
-                            style: const TextStyle(
-                                color: Myassets.colorwhite,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          ));
-                    })
-              ]),
-              shape: const RoundedRectangleBorder(
-                borderRadius:
-                    BorderRadius.vertical(bottom: Radius.circular(30)),
-              ),
-              actions: [
-                GestureDetector(
-                  onTap: () async {
-                    await FirebaseAuth.instance.signOut();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const LoginScreen()),
-                    );
-                  },
-                  child: const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Icon(
-                      Iconsax.logout_copy,
-                      size: 50,
-                      color: Myassets.colorwhite,
-                    ),
-                  ),
-                )
-              ],
-            ),
-            body: Padding(
-              padding: const EdgeInsetsDirectional.symmetric(horizontal: 20),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: const Color.fromARGB(132, 0, 0, 0),
-                        width: 2.0,
+                          )),
+                      SizedBox(
+                        height: HEIGHT * 0.025,
                       ),
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    child: SearchBar(
-                        hintText: 'Search',
-                        hintStyle: const WidgetStatePropertyAll(TextStyle(
-                            fontSize: 20,
-                            color: Myassets.colorgreen,
-                            fontWeight: FontWeight.bold)),
-                        textStyle: const WidgetStatePropertyAll(TextStyle(
-                            fontSize: 20,
-                            color: Myassets.colorgreen,
-                            fontWeight: FontWeight.bold)),
-                        backgroundColor:
-                            const WidgetStatePropertyAll(Myassets.colorwhite),
-                        controller: _searchController,
-                        padding: const WidgetStatePropertyAll<EdgeInsets>(
-                            EdgeInsets.symmetric(horizontal: 20)),
-                        onChanged: (query) {
-                          _searchDocuments(query);
-                          if (_searchResults.isNotEmpty) {
-                            Container(
-                              color: Colors.grey[200],
-                              padding: EdgeInsets.symmetric(vertical: 8.0),
-                              child: Expanded(
-                                child: ListView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: _searchResults.length,
-                                  itemBuilder: (context, index) {
-                                    final doc = _searchResults[index];
-                                    final name = doc['name'];
-                                    return ListTile(
-                                      title: Text(name),
-                                      subtitle: Text(doc.id),
-                                      onTap: () {
-                                        // Handle document tap
-                                      },
-                                    );
-                                  },
-                                ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  setcolor(Myassets.colorgreen,
+                                      Myassets.colorblack, Myassets.colorblack);
+                                  tasksDocument = tasksDocument_today;
+                                });
+                              },
+                              child: Text(
+                                'Today',
+                                style: TextStyle(
+                                    color: color1,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
                               ),
-                            );
-                          }
-                        },
-                        trailing: const <Widget>[
-                          Icon(
-                            Icons.search,
-                            size: 40,
-                          ),
-                        ]),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  const Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        'My tasks',
-                        style: TextStyle(
-                            color: Myassets.colorblack,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25),
-                      )),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              setcolor(Myassets.colorgreen, Myassets.colorblack,
-                                  Myassets.colorblack);
-                              tasksDocument = tasksDocument_today;
-                            });
-                          },
-                          child: Text(
-                            'Today',
-                            style: TextStyle(
-                                color: color1,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              setcolor(Myassets.colorblack, Myassets.colorgreen,
-                                  Myassets.colorblack);
-                              tasksDocument = tasksDocument_upcoming;
-                            });
-                          },
-                          child: Text(
-                            'Upcoming',
-                            style: TextStyle(
-                                color: color2,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              setcolor(Myassets.colorblack, Myassets.colorblack,
-                                  Myassets.colorgreen);
-                              tasksDocument = tasksDocument_completed;
-                            });
-                          },
-                          child: Text(
-                            'Completed',
-                            style: TextStyle(
-                                color: color3,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  FutureBuilder(
-                      future: tasksDocument,
-                      builder: (context, snapshot) {
-                        if (snapshot.hasError) {
-                          return const Align(
-                            alignment: Alignment.bottomCenter,
-                            child: Text(
-                              'Oooops! Something went wrong...',
-                              style: TextStyle(
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20),
                             ),
-                          );
-                        }
-                        if (snapshot.connectionState ==
-                                ConnectionState.waiting &&
-                            state == 1) {
-                          return Expanded(child:  Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Align(
-                                alignment: Alignment.center,
-                                child:
-                                    Image.asset(Myassets.loadingImg, scale: 2),
-                              )));
-                        }
-                        //subtasks.clear();
-                        // QuerySnapshot a = tasksDocument_today as QuerySnapshot<Object?>;
-                        //final docSnap = tasksDocument_today.toList();
-                        //final docs = docSnap as Map<String, dynamic>;
-                        //final k = docs.length;
-                        //subtasks = docs;
-
-                        state = 0;
-                        final documents = snapshot.data!.docs;
-                        return 
-                        documents.isEmpty? Expanded(child: Align(alignment: Alignment.center,child:Image.asset(Myassets.doneImg, scale: 3),)):
-                        Expanded(
-                          child: ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: snapshot.data!.docs.length,
-                            itemBuilder: (context, index) {
-                              final document = documents[index];
-                              final deadline = document.get('deadline') as String?;
-                              String formattedDate = DateFormat('dd MMMM yyyy').format(DateTime.parse(deadline!));
-                              final taskID = document.id;
-                              return GestureDetector(
-                                onTap: () {
-                                  widget.user.task = taskID;
-                                  widget.user.docSnap = document;
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => TaskView(
-                                              user: widget.user,
-                                            )),
-                                  );
-                                },
-                                child: Card(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15.0),
-                                  ),
-                                  color:
-                                      Myassets.colorgreen, // Background color
-                                  elevation: 5.0,
-                                  child: Padding(
-                                      padding: const EdgeInsets.all(16.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                taskID.toUpperCase(),
-                                                style: const TextStyle(
-                                                  fontSize:
-                                                      24.0, // Font size for the task name
-                                                  fontWeight: FontWeight.bold,
-                                                  color: Myassets.colorblack,
-                                                ),
-                                              ),
-                                              const SizedBox(height: 8.0),
-                                              Container(
-                                                      padding: const EdgeInsets.fromLTRB(5, 2, 5, 2), // Padding inside the container
-                                                      decoration: BoxDecoration(
-                                                        color: Myassets.colorwhite,
-                                                        borderRadius:
-                                                            BorderRadius.circular( 
-                                                                5.0), // Rounded borders
-                                                      ),
-                                                      child: Text(
-                                                        formattedDate,
-                                                        style: TextStyle(
-                                                          fontSize: 16,
-                                                          fontWeight: FontWeight.bold,
-                                                          color: DateTime.parse(deadline).isAfter(DateTime.now()) ?    Myassets.colorblack : Colors.red,
-                                                        ),
-                                                      ),
-                                                    ),
-                                            ],
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                openDialog_delete(taskID);
-                                              });
-                                            },
-                                            child: Icon(
-                                              Icons.delete,
-                                              size: 50,
-                                              color: Myassets.colorwhite,
-                                            ),
-                                          )
-                                        ],
-                                      )),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  setcolor(Myassets.colorblack,
+                                      Myassets.colorgreen, Myassets.colorblack);
+                                  tasksDocument = tasksDocument_upcoming;
+                                });
+                              },
+                              child: Text(
+                                'Upcoming',
+                                style: TextStyle(
+                                    color: color2,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  setcolor(Myassets.colorblack,
+                                      Myassets.colorblack, Myassets.colorgreen);
+                                  tasksDocument = tasksDocument_completed;
+                                });
+                              },
+                              child: Text(
+                                'Completed',
+                                style: TextStyle(
+                                    color: color3,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: HEIGHT * 0.025,
+                      ),
+                      FutureBuilder(
+                          future: tasksDocument,
+                          builder: (context, snapshot) {
+                            if (snapshot.hasError) {
+                              return const Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Text(
+                                  'Oooops! Something went wrong...',
+                                  style: TextStyle(
+                                      color: Colors.red,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
                                 ),
                               );
-                            },
-                          ),
-                        );
-                      }),
-                ],
-              ),
-            ));
+                            }
+                            if (snapshot.connectionState ==
+                                    ConnectionState.waiting &&
+                                state == 1) {
+                              return Expanded(
+                                  child: Align(
+                                      alignment: Alignment.bottomCenter,
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Image.asset(Myassets.loadingImg,
+                                            scale: 2),
+                                      )));
+                            }
+                            //subtasks.clear();
+                            // QuerySnapshot a = tasksDocument_today as QuerySnapshot<Object?>;
+                            //final docSnap = tasksDocument_today.toList();
+                            //final docs = docSnap as Map<String, dynamic>;
+                            //final k = docs.length;
+                            //subtasks = docs;
+
+                            state = 0;
+                            final documents = snapshot.data!.docs;
+                            return documents.isEmpty
+                                ? Expanded(
+                                    child: Align(
+                                    alignment: Alignment.center,
+                                    child:
+                                        Image.asset(Myassets.doneImg, scale: 3),
+                                  ))
+                                : Expanded(
+                                    child: ListView.builder(
+                                      scrollDirection: Axis.vertical,
+                                      shrinkWrap: true,
+                                      itemCount: snapshot.data!.docs.length,
+                                      itemBuilder: (context, index) {
+                                        final document = documents[index];
+                                        final deadline =
+                                            document.get('deadline') as String?;
+                                        String formattedDate =
+                                            DateFormat('dd MMMM yyyy').format(
+                                                DateTime.parse(deadline!));
+                                        final taskID = document.id;
+                                        return GestureDetector(
+                                          onTap: () {
+                                            widget.user.task = taskID;
+                                            widget.user.docSnap = document;
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      TaskView(
+                                                        user: widget.user,
+                                                      )),
+                                            );
+                                          },
+                                          child: Card(
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(15.0),
+                                            ),
+                                            color: Myassets
+                                                .colorgreen, // Background color
+                                            elevation: 5.0,
+                                            child: Padding(
+                                                padding:
+                                                    const EdgeInsets.all(16.0),
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          taskID.toUpperCase(),
+                                                          style:
+                                                              const TextStyle(
+                                                            fontSize:
+                                                                24.0, // Font size for the task name
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            color: Myassets
+                                                                .colorblack,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: HEIGHT * 0.01,
+                                                        ),
+                                                        Container(
+                                                          padding: const EdgeInsets
+                                                              .fromLTRB(5, 2, 5,
+                                                              2), // Padding inside the container
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Myassets
+                                                                .colorwhite,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5.0), // Rounded borders
+                                                          ),
+                                                          child: Text(
+                                                            formattedDate,
+                                                            style: TextStyle(
+                                                              fontSize: 16,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              color: DateTime.parse(
+                                                                          deadline)
+                                                                      .isAfter(
+                                                                          DateTime
+                                                                              .now())
+                                                                  ? Myassets
+                                                                      .colorblack
+                                                                  : Colors.red,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        setState(() {
+                                                          openDialog_delete(
+                                                              taskID);
+                                                        });
+                                                      },
+                                                      child: Icon(
+                                                        Icons.delete,
+                                                        size: 50,
+                                                        color:
+                                                            Myassets.colorwhite,
+                                                      ),
+                                                    )
+                                                  ],
+                                                )),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  );
+                          }),
+                    ],
+                  ),
+                )));
       },
     );
   }
@@ -541,8 +594,10 @@ class _DashboardState extends State<Dashboard> {
   Future openDialog_delete(String documentId) => showDialog(
       context: context,
       builder: (context) => Dialog(
+        
               child: Container(
-            height: 250,
+            height: MediaQuery.of(context).size.height*0.3,
+            width: MediaQuery.of(context).size.width*0.2,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -552,8 +607,8 @@ class _DashboardState extends State<Dashboard> {
                   size: 75,
                   color: Color.fromRGBO(25, 118, 210, 1.0),
                 ),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.025,
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -580,9 +635,9 @@ class _DashboardState extends State<Dashboard> {
                         fontSize: 25), // Text color
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
+                SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.025,
+                        ),
                 ElevatedButton(
                   onPressed: () {
                     setState(() {

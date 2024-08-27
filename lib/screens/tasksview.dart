@@ -31,6 +31,9 @@ class _TaskViewState extends State<TaskView> {
 
   @override
   Widget build(BuildContext context) {
+    final double HEIGHT = MediaQuery.of(context).size.height;
+    final double WIDTH = MediaQuery.of(context).size.width;
+
     return Scaffold(
         backgroundColor: Myassets.colorwhite,
         appBar: AppBar(
@@ -97,8 +100,8 @@ class _TaskViewState extends State<TaskView> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(
-                          height: 25,
+                        SizedBox(
+                          height: HEIGHT * 0.02,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,8 +133,8 @@ class _TaskViewState extends State<TaskView> {
                                         fontSize: 20),
                                   )),
                             ),
-                            const SizedBox(
-                              height: 15,
+                            SizedBox(
+                              height: HEIGHT * 0.02,
                             ),
                             const Text(
                               'Description',
@@ -162,8 +165,8 @@ class _TaskViewState extends State<TaskView> {
                                     textAlign: TextAlign.justify,
                                   )),
                             ),
-                            const SizedBox(
-                              height: 15,
+                            SizedBox(
+                              height: HEIGHT * 0.02,
                             ),
                             const Text(
                               'Deadline',
@@ -248,8 +251,8 @@ class _TaskViewState extends State<TaskView> {
                                 ),
                               ],
                             ),
-                            const SizedBox(
-                              height: 10,
+                            SizedBox(
+                              height: HEIGHT * 0.02,
                             ),
                             const Text(
                               'Stages of Task',
@@ -258,35 +261,43 @@ class _TaskViewState extends State<TaskView> {
                                   fontWeight: FontWeight.bold,
                                   fontSize: 18),
                             ),
-                            const SizedBox(
-                              height: 15,
+                            SizedBox(
+                              height: HEIGHT * 0.02,
                             ),
                             //Text(widget.user.docSnap!['subtasks'].isEmpty ? 'no': '${widget.user.docSnap!['subtasks'][0]}'),
                             //final List<dynamic> stages = widget.user.docSnap?['subtasks'] ?? [],
                           ],
                         ),
-                        widget.user.docSnap!['subtasks'].isEmpty? Expanded(child: Align(alignment: Alignment.center,child:Image.asset(Myassets.notaskImg, scale: 3),)):
-                        Expanded(
-                            child: ListView.builder(
-                          itemBuilder: (context, int index) {
-                            return Card(
-                                color: Myassets.colorgreen,
+                        widget.user.docSnap!['subtasks'].isEmpty
+                            ? Expanded(
                                 child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Padding(
-                                      padding: const EdgeInsets.all(10),
-                                      child: Text(
-                                        widget.user.docSnap!['subtasks'][index],
-                                        style: const TextStyle(
-                                            color: Color.fromRGBO(
-                                                255, 255, 255, 1),
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 20),
-                                      )),
-                                ));
-                          },
-                          itemCount: widget.user.docSnap!['subtasks'].length,
-                        ))
+                                alignment: Alignment.center,
+                                child:
+                                    Image.asset(Myassets.notaskImg, scale: 3),
+                              ))
+                            : Expanded(
+                                child: ListView.builder(
+                                itemBuilder: (context, int index) {
+                                  return Card(
+                                      color: Myassets.colorgreen,
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Padding(
+                                            padding: const EdgeInsets.all(10),
+                                            child: Text(
+                                              widget.user.docSnap!['subtasks']
+                                                  [index],
+                                              style: const TextStyle(
+                                                  color: Color.fromRGBO(
+                                                      255, 255, 255, 1),
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 20),
+                                            )),
+                                      ));
+                                },
+                                itemCount:
+                                    widget.user.docSnap!['subtasks'].length,
+                              ))
                       ],
                     ),
                   )
@@ -305,8 +316,8 @@ class _TaskViewState extends State<TaskView> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Image.asset(Myassets.completedImg, scale: 8),
-                const SizedBox(
-                  height: 20,
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -334,8 +345,8 @@ class _TaskViewState extends State<TaskView> {
                         fontSize: 25), // Text color
                   ),
                 ),
-                const SizedBox(
-                  height: 10,
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.02,
                 ),
                 ElevatedButton(
                   onPressed: () {
@@ -377,7 +388,7 @@ class _TaskViewState extends State<TaskView> {
       await dbRef
           .doc(widget.user.docSnap?.id)
           .update({'completed': updatedData});
-      
+
       Navigator.push(
         context,
         MaterialPageRoute(
