@@ -26,6 +26,8 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final double HEIGHT = MediaQuery.of(context).size.height;
+
     return Scaffold(
         //resizeToAvoidBottomInset: false,
         backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
@@ -35,10 +37,10 @@ class _SignupScreenState extends State<SignupScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  const SizedBox(
-                    height: 5,
+                  SizedBox(
+                    height: HEIGHT * 0.006,
                   ),
-                  Image.asset(Myassets.signupImg, scale: 6.5),
+                  Image.asset(Myassets.signupImg, scale: HEIGHT * 0.0072),
                   Padding(
                     padding: const EdgeInsets.all(18.0),
                     child: Column(
@@ -60,9 +62,9 @@ class _SignupScreenState extends State<SignupScreen> {
                             labelText: 'Email',
                           ),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(
+                    height: HEIGHT * 0.006,
+                  ),
                         TextFormField(
                           controller: nameController,
                           decoration: InputDecoration(
@@ -80,9 +82,9 @@ class _SignupScreenState extends State<SignupScreen> {
                             labelText: 'Name',
                           ),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        SizedBox(
+                    height: HEIGHT * 0.006,
+                  ),
                         ShowHidePasswordTextField(
                           controller: passwordController1,
                           visibleOffIcon: Iconsax.eye_slash,
@@ -127,9 +129,9 @@ class _SignupScreenState extends State<SignupScreen> {
                             labelText: 'Confirm Password',
                           ),
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        SizedBox(
+                    height: HEIGHT * 0.03,
+                  ),
                         ElevatedButton(
                           onPressed: () async {
                             try {
@@ -181,9 +183,9 @@ class _SignupScreenState extends State<SignupScreen> {
                           },
                           child: const Text('Signup'),
                         ),
-                        const SizedBox(
-                          height: 20,
-                        ),
+                        SizedBox(
+                    height: HEIGHT * 0.03,
+                  ),
                         Align(
                             alignment: Alignment.center,
                             child: Row(
@@ -216,8 +218,8 @@ class _SignupScreenState extends State<SignupScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 5,
+                  SizedBox(
+                    height: HEIGHT * 0.005,
                   ),
                 ],
               ))

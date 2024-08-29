@@ -24,6 +24,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final double HEIGHT = MediaQuery.of(context).size.height;
+
     return Scaffold(
         backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
         body: CustomScrollView(scrollDirection: Axis.vertical, slivers: [
@@ -32,8 +34,8 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  const SizedBox(
-                    height: 5,
+                  SizedBox(
+                    height: HEIGHT * 0.005,
                   ),
                   Align(
                     alignment: Alignment.topLeft,
@@ -46,7 +48,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ),
-                  Image.asset(Myassets.loginImg, scale: 6.5),
+                  Image.asset(Myassets.loginImg, scale: HEIGHT * 0.007),
                   Padding(
                       padding: const EdgeInsets.all(18.0),
                       child: Form(
@@ -70,8 +72,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 labelText: 'Email',
                               ),
                             ),
-                            const SizedBox(
-                              height: 10,
+                            SizedBox(
+                              height: HEIGHT * 0.005,
                             ),
                             ShowHidePasswordTextField(
                               controller: passwordController,
@@ -95,8 +97,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 labelText: 'Password',
                               ),
                             ),
-                            const SizedBox(
-                              height: 20,
+                            SizedBox(
+                              height: HEIGHT * 0.025,
                             ),
                             ElevatedButton(
                               onPressed: () async {
@@ -109,7 +111,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   );
                                   String uid = credentials.user!.uid;
                                   user1.id = uid;
-                                  
 
                                   Navigator.push(
                                     context,
@@ -123,14 +124,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                       msg: error.message.toString(),
                                       gravity: ToastGravity.TOP,
                                       textColor: Theme.of(context).primaryColor,
-                                      backgroundColor:
-                                          const Color.fromARGB(149, 164, 236, 220));
+                                      backgroundColor: const Color.fromARGB(
+                                          149, 164, 236, 220));
                                 }
                               },
                               child: const Text('Login'),
                             ),
-                            const SizedBox(
-                              height: 20,
+                            SizedBox(
+                              height: HEIGHT * 0.025,
                             ),
                             Align(
                                 alignment: Alignment.center,
@@ -165,8 +166,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           ],
                         ),
                       )),
-                  const SizedBox(
-                    height: 5,
+                  SizedBox(
+                    height: HEIGHT * 0.005,
                   ),
                 ],
               ))

@@ -50,24 +50,11 @@ class _DashboardState extends State<Dashboard> {
       .collection("task_list");
 
   late QuerySnapshot<Map<String, dynamic>> querySnapshot;
-
-  late Future<QuerySnapshot<Map<String, dynamic>>> tasksDocument_today = dbRef
-      .where('completed', isEqualTo: false)
-      .where('deadline',
-          isEqualTo: DateFormat('yyyy-MM-dd').format(DateTime.now()))
-      .orderBy('deadline', descending: true)
-      .get();
-  late Future<QuerySnapshot<Map<String, dynamic>>> tasksDocument_upcoming =
-      dbRef
-          .orderBy('deadline', descending: false)
-          .where('completed', isEqualTo: false)
-          .get();
-  late Future<QuerySnapshot<Map<String, dynamic>>> tasksDocument_completed =
-      dbRef
-          .orderBy('deadline', descending: true)
-          .where('completed', isEqualTo: true)
-          .get();
+  late Future<QuerySnapshot<Map<String, dynamic>>> tasksDocument_today;
+  late Future<QuerySnapshot<Map<String, dynamic>>> tasksDocument_upcoming;
+  late Future<QuerySnapshot<Map<String, dynamic>>> tasksDocument_completed;
   late Future<QuerySnapshot<Map<String, dynamic>>> tasksDocument;
+
   //late Future<AggregateQuerySnapshot> aggQuery = dbRef.count().get();
 
   late Future<DocumentSnapshot> userDocument;
@@ -75,6 +62,21 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
+
+    tasksDocument_today = dbRef
+        .where('completed', isEqualTo: false)
+        .where('deadline',
+            isEqualTo: DateFormat('yyyy-MM-dd').format(DateTime.now()))
+        .orderBy('deadline', descending: true)
+        .get();
+    tasksDocument_upcoming = dbRef
+        .orderBy('deadline', descending: false)
+        .where('completed', isEqualTo: false)
+        .get();
+    tasksDocument_completed = dbRef
+        .orderBy('deadline', descending: true)
+        .where('completed', isEqualTo: true)
+        .get();
 
     tasksDocument = tasksDocument_today;
 
@@ -141,7 +143,7 @@ class _DashboardState extends State<Dashboard> {
 
                 //backgroundColor: Myassets.colorwhite,
                 appBar: AppBar(
-                  toolbarHeight: 100,
+                  toolbarHeight: HEIGHT * 0.12,
                   backgroundColor: Myassets.colorgreen,
                   leading: Image.asset(
                     Myassets.personImg,
@@ -204,6 +206,9 @@ class _DashboardState extends State<Dashboard> {
                                     fontSize: 25),
                               ));
                         }),
+                    SizedBox(
+                      height: HEIGHT * 0.005,
+                    ),
                     FutureBuilder(
                         future: tasksDocument_today,
                         builder: (context, snapshot) {
@@ -233,11 +238,11 @@ class _DashboardState extends State<Dashboard> {
                             ));
                           }
                           if (!snapshot.hasData) {
-                            widget.user.name = '0 tasks today';
+                            widget.user.numOfTasks = 0;
                             return const Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  '0 tasks today',
+                                  '0 task(s) today',
                                   style: TextStyle(
                                       color: Myassets.colorwhite,
                                       fontWeight: FontWeight.bold,
@@ -251,7 +256,7 @@ class _DashboardState extends State<Dashboard> {
                           return Align(
                               alignment: Alignment.topLeft,
                               child: Text(
-                                '$documentCount tasks today',
+                                '$documentCount task(s) today',
                                 style: const TextStyle(
                                     color: Myassets.colorwhite,
                                     fontWeight: FontWeight.bold,
@@ -465,7 +470,7 @@ class _DashboardState extends State<Dashboard> {
                                     child: Align(
                                     alignment: Alignment.center,
                                     child:
-                                        Image.asset(Myassets.doneImg, scale: 3),
+                                        Image.asset(Myassets.doneImg, scale: HEIGHT * 0.003,),
                                   ))
                                 : Expanded(
                                     child: ListView.builder(
@@ -593,18 +598,18 @@ class _DashboardState extends State<Dashboard> {
 
   Future openDialog_delete(String documentId) => showDialog(
       context: context,
+      
       builder: (context) => Dialog(
-        
-              child: Container(
-            height: MediaQuery.of(context).size.height*0.3,
-            width: MediaQuery.of(context).size.width*0.2,
+          insetPadding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.height * 0.02, vertical: MediaQuery.of(context).size.height * 0.3,),
+          child: Container(
+            padding: EdgeInsets.all(10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Icon(
                   Icons.delete_outline,
-                  size: 75,
+                  size: MediaQuery.of(context).size.height * 0.13,
                   color: Color.fromRGBO(25, 118, 210, 1.0),
                 ),
                 SizedBox(
@@ -636,8 +641,8 @@ class _DashboardState extends State<Dashboard> {
                   ),
                 ),
                 SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.025,
-                        ),
+                  height: MediaQuery.of(context).size.height * 0.02,
+                ),
                 ElevatedButton(
                   onPressed: () {
                     setState(() {

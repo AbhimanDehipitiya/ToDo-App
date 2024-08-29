@@ -26,6 +26,10 @@ class _AddTaskState extends State<AddTask> {
 
   @override
   Widget build(BuildContext context) {
+
+    final double HEIGHT = MediaQuery.of(context).size.height;
+    final double WIDTH = MediaQuery.of(context).size.width;
+
     return Scaffold(
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
@@ -111,7 +115,7 @@ class _AddTaskState extends State<AddTask> {
               ),
             )
           ],
-          toolbarHeight: 100,
+          toolbarHeight: HEIGHT * 0.12,
           backgroundColor: Myassets.colorgreen,
           leading: Image.asset(
             Myassets.personImg,
@@ -128,10 +132,13 @@ class _AddTaskState extends State<AddTask> {
                         fontWeight: FontWeight.bold,
                         fontSize: 25),
                   )),
+                  SizedBox(
+                        height: HEIGHT * 0.005,
+                      ),
               Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    '${widget.user.numOfTasks} tasks today',
+                    '${widget.user.numOfTasks} task(s) today',
                     style: const TextStyle(
                         color: Color.fromRGBO(255, 255, 255, 1),
                         fontWeight: FontWeight.bold,
@@ -150,9 +157,9 @@ class _AddTaskState extends State<AddTask> {
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: [
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      SizedBox(
+                              height: HEIGHT * 0.02,
+                            ),
                       const Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
@@ -163,9 +170,9 @@ class _AddTaskState extends State<AddTask> {
                               fontSize: 25),
                         ),
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      SizedBox(
+                              height: HEIGHT * 0.02,
+                            ),
                       TextFormField(
                         controller: titleController,
                         decoration: InputDecoration(
@@ -189,9 +196,9 @@ class _AddTaskState extends State<AddTask> {
                                 borderSide: BorderSide(
                                     color: Myassets.colorgreen, width: 4))),
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      SizedBox(
+                              height: HEIGHT * 0.02,
+                            ),
                       TextFormField(
                         controller: descriptionController,
                         decoration: InputDecoration(
@@ -215,9 +222,9 @@ class _AddTaskState extends State<AddTask> {
                                 borderSide: BorderSide(
                                     color: Myassets.colorgreen, width: 4))),
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      SizedBox(
+                              height: HEIGHT * 0.02,
+                            ),
                       TextFormField(
                         controller: dateController,
                         onTap: () {
@@ -245,9 +252,9 @@ class _AddTaskState extends State<AddTask> {
                                     color: Myassets.colorgreen, width: 4))),
                         readOnly: true,
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      SizedBox(
+                              height: HEIGHT * 0.02,
+                            ),
                       TextFormField(
                         controller: subtaskController,
                         decoration: InputDecoration(
@@ -288,9 +295,9 @@ class _AddTaskState extends State<AddTask> {
                                 borderSide: BorderSide(
                                     color: Myassets.colorgreen, width: 4))),
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
+                      SizedBox(
+                              height: HEIGHT * 0.02,
+                            ),
                       //Flexible(fit: FlexFit.loose,child: subtask(subtasks.length.toInt()),),
                       //subtask(subtasks.length.toInt()),
                       subtasks.isEmpty? Expanded(child: Align(alignment: Alignment.center,child:Image.asset(Myassets.addtaskImg, scale: 3),)): 

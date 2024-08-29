@@ -58,7 +58,7 @@ class _TaskViewState extends State<TaskView> {
               ),
             )
           ],
-          toolbarHeight: 100,
+          toolbarHeight: HEIGHT * 0.12,
           backgroundColor: Myassets.colorgreen,
           leading: Image.asset(
             Myassets.personImg,
@@ -75,10 +75,13 @@ class _TaskViewState extends State<TaskView> {
                         fontWeight: FontWeight.bold,
                         fontSize: 25),
                   )),
+              SizedBox(
+                height: HEIGHT * 0.005,
+              ),
               Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    '${widget.user.numOfTasks} tasks today',
+                    '${widget.user.numOfTasks} task(s) today',
                     style: TextStyle(
                         color: Myassets.colorwhite,
                         fontWeight: FontWeight.bold,
@@ -157,7 +160,7 @@ class _TaskViewState extends State<TaskView> {
                                   padding:
                                       const EdgeInsets.fromLTRB(10, 4, 10, 4),
                                   child: Text(
-                                    '${widget.user.docSnap!['description']}',
+                                    '${widget.user.docSnap?['description'] ?? ''}',
                                     style: const TextStyle(
                                         color: Myassets.colorwhite,
                                         fontWeight: FontWeight.bold,
@@ -273,13 +276,13 @@ class _TaskViewState extends State<TaskView> {
                                 child: Align(
                                 alignment: Alignment.center,
                                 child:
-                                    Image.asset(Myassets.notaskImg, scale: 3),
+                                    Image.asset(Myassets.notaskImg, scale: HEIGHT * 0.003,),
                               ))
                             : Expanded(
                                 child: ListView.builder(
                                 itemBuilder: (context, int index) {
                                   return Card(
-                                      color: Myassets.colorgreen,
+                                      color: Color.fromRGBO(25, 118, 210, 1.0),
                                       child: Align(
                                         alignment: Alignment.centerLeft,
                                         child: Padding(
@@ -309,13 +312,14 @@ class _TaskViewState extends State<TaskView> {
   Future openDialog_state() => showDialog(
       context: context,
       builder: (context) => Dialog(
-              child: Container(
-            height: 250,
+          insetPadding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.height * 0.02, vertical: MediaQuery.of(context).size.height * 0.3,),
+          child: Container(
+            padding: EdgeInsets.all(10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset(Myassets.completedImg, scale: 8),
+                Image.asset(Myassets.completedImg, scale: MediaQuery.of(context).size.height * 0.006),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.02,
                 ),
