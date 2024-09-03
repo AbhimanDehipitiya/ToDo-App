@@ -52,7 +52,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             hintStyle: Theme.of(context)
                                 .textTheme
                                 .labelMedium!
-                                .copyWith(color: Colors.black38, fontSize: 16),
+                                .copyWith(color: Colors.black38, fontSize: HEIGHT * 0.00115 * 16),
                             floatingLabelStyle:
                                 Theme.of(context).textTheme.titleLarge,
                             icon: Icon(
@@ -72,7 +72,7 @@ class _SignupScreenState extends State<SignupScreen> {
                             hintStyle: Theme.of(context)
                                 .textTheme
                                 .labelMedium!
-                                .copyWith(color: Colors.black38, fontSize: 16),
+                                .copyWith(color: Colors.black38, fontSize: HEIGHT * 0.00115 * 16),
                             floatingLabelStyle:
                                 Theme.of(context).textTheme.titleLarge,
                             icon: Icon(
@@ -97,7 +97,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 .copyWith(
                                     color: Colors.black38,
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 12),
+                                    fontSize: HEIGHT * 0.00115 * 12),
                             floatingLabelStyle:
                                 Theme.of(context).textTheme.titleLarge,
                             icon: Icon(
@@ -119,7 +119,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                 .copyWith(
                                     color: Colors.black38,
                                     fontWeight: FontWeight.w500,
-                                    fontSize: 12),
+                                    fontSize: HEIGHT * 0.00115 * 12),
                             floatingLabelStyle:
                                 Theme.of(context).textTheme.titleLarge,
                             icon: Icon(
@@ -191,11 +191,11 @@ class _SignupScreenState extends State<SignupScreen> {
                             child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  const Text(
+                                  Text(
                                     'If you have an account, please ',
                                     style: TextStyle(
-                                        fontSize: 15,
-                                        color: Color.fromARGB(255, 6, 108, 74)),
+                                        fontSize: HEIGHT * 0.00115 * 15,
+                                        color: const Color.fromARGB(255, 6, 108, 74)),
                                   ),
                                   GestureDetector(
                                     onTap: () {
@@ -206,12 +206,12 @@ class _SignupScreenState extends State<SignupScreen> {
                                                 const LoginScreen()),
                                       );
                                     },
-                                    child: const Text(
+                                    child: Text(
                                       'login',
                                       style: TextStyle(
-                                          fontSize: 15,
+                                          fontSize: HEIGHT * 0.00115 * 15,
                                           color:
-                                              Color.fromARGB(255, 0, 53, 36)),
+                                              const Color.fromARGB(255, 0, 53, 36)),
                                     ),
                                   ),
                                 ])),

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:iconsax_flutter/iconsax_flutter.dart';
@@ -48,8 +47,8 @@ class _TaskViewState extends State<TaskView> {
                           )),
                 );
               },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Icon(
                   Iconsax.arrow_circle_left,
                   size: 50,
@@ -73,7 +72,7 @@ class _TaskViewState extends State<TaskView> {
                     style: TextStyle(
                         color: Myassets.colorwhite,
                         fontWeight: FontWeight.bold,
-                        fontSize: 25),
+                        fontSize: HEIGHT * 0.00115 * 25),
                   )),
               SizedBox(
                 height: HEIGHT * 0.005,
@@ -85,7 +84,7 @@ class _TaskViewState extends State<TaskView> {
                     style: TextStyle(
                         color: Myassets.colorwhite,
                         fontWeight: FontWeight.bold,
-                        fontSize: 20),
+                        fontSize: HEIGHT * 0.00115 * 20),
                   ))
             ],
           ),
@@ -109,17 +108,18 @@ class _TaskViewState extends State<TaskView> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text(
+                            Text(
                               'Title',
                               style: TextStyle(
                                   color: Myassets.colorblack,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 18),
+                                  fontSize: HEIGHT * 0.00115 * 18),
                             ),
                             Container(
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
-                                  color: Color.fromRGBO(25, 118, 210, 1.0),
+                                  color:
+                                      const Color.fromRGBO(25, 118, 210, 1.0),
                                   // border: Border.all(
                                   //   color: Color.fromARGB(255, 0, 69, 242),
                                   //   width: 4,
@@ -130,27 +130,28 @@ class _TaskViewState extends State<TaskView> {
                                       const EdgeInsets.fromLTRB(10, 4, 10, 4),
                                   child: Text(
                                     '${widget.user.task}',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         color: Myassets.colorwhite,
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 20),
+                                        fontSize: HEIGHT * 0.00115 * 20),
                                   )),
                             ),
                             SizedBox(
                               height: HEIGHT * 0.02,
                             ),
-                            const Text(
+                            Text(
                               'Description',
                               style: TextStyle(
                                   color: Myassets.colorblack,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 18),
+                                  fontSize: HEIGHT * 0.00115 * 18),
                             ),
                             Container(
                               height: MediaQuery.of(context).size.height * 0.1,
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
-                                  color: Color.fromRGBO(25, 118, 210, 1.0),
+                                  color:
+                                      const Color.fromRGBO(25, 118, 210, 1.0),
                                   // border: Border.all(
                                   //   color: Color.fromARGB(255, 0, 69, 242),
                                   //   width: 4,
@@ -161,32 +162,32 @@ class _TaskViewState extends State<TaskView> {
                                       const EdgeInsets.fromLTRB(10, 4, 10, 4),
                                   child: Text(
                                     '${widget.user.docSnap?['description'] ?? ''}',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         color: Myassets.colorwhite,
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 20),
+                                        fontSize: HEIGHT * 0.00115 * 20),
                                     textAlign: TextAlign.justify,
                                   )),
                             ),
                             SizedBox(
                               height: HEIGHT * 0.02,
                             ),
-                            const Text(
+                            Text(
                               'Deadline',
                               style: TextStyle(
                                   color: Myassets.colorblack,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 18),
+                                  fontSize: HEIGHT * 0.00115 * 18),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
                                   '${widget.user.docSnap!['deadline']}',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                       color: Myassets.colorblack,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 20),
+                                      fontSize: HEIGHT * 0.00115 * 20),
                                 ),
                                 // GestureDetector(
                                 //   onTap: () => openDialog_state(),
@@ -214,7 +215,7 @@ class _TaskViewState extends State<TaskView> {
                                 //           style: const TextStyle(
                                 //               color: Myassets.colorblack,
                                 //               fontWeight: FontWeight.bold,
-                                //               fontSize: 20),
+                                //               fontSize: HEIGHT * 0.00115 * 20),
                                 //         )),
                                 //   ),
                                 // ),
@@ -224,14 +225,18 @@ class _TaskViewState extends State<TaskView> {
                                     backgroundColor:
                                         WidgetStateProperty.all<Color>(
                                       widget.user.docSnap!['completed']
-                                          ? Color.fromARGB(217, 245, 245, 95)
-                                          : Color.fromARGB(255, 139, 252, 144),
+                                          ? const Color.fromARGB(
+                                              217, 245, 245, 95)
+                                          : const Color.fromARGB(
+                                              255, 139, 252, 144),
                                     ),
                                     side: WidgetStateProperty.all<BorderSide>(
                                         BorderSide(
                                       color: widget.user.docSnap!['completed']
-                                          ? Color.fromARGB(255, 248, 166, 2)
-                                          : Color.fromARGB(252, 8, 234, 19),
+                                          ? const Color.fromARGB(
+                                              255, 248, 166, 2)
+                                          : const Color.fromARGB(
+                                              252, 8, 234, 19),
                                       width: 4,
                                     )),
                                     shape: WidgetStateProperty.all<
@@ -246,10 +251,10 @@ class _TaskViewState extends State<TaskView> {
                                     widget.user.docSnap!['completed']
                                         ? 'Completed'
                                         : 'On Progress',
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                         color: Myassets.colorblack,
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 20), // Text color
+                                        fontSize: HEIGHT * 0.00115 * 20), // Text color
                                   ),
                                 ),
                               ],
@@ -257,12 +262,12 @@ class _TaskViewState extends State<TaskView> {
                             SizedBox(
                               height: HEIGHT * 0.02,
                             ),
-                            const Text(
+                            Text(
                               'Stages of Task',
                               style: TextStyle(
                                   color: Myassets.colorblack,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 18),
+                                  fontSize: HEIGHT * 0.00115 * 18),
                             ),
                             SizedBox(
                               height: HEIGHT * 0.02,
@@ -275,14 +280,17 @@ class _TaskViewState extends State<TaskView> {
                             ? Expanded(
                                 child: Align(
                                 alignment: Alignment.center,
-                                child:
-                                    Image.asset(Myassets.notaskImg, scale: HEIGHT * 0.003,),
+                                child: Image.asset(
+                                  Myassets.notaskImg,
+                                  scale: HEIGHT * 0.003,
+                                ),
                               ))
                             : Expanded(
                                 child: ListView.builder(
                                 itemBuilder: (context, int index) {
                                   return Card(
-                                      color: Color.fromRGBO(25, 118, 210, 1.0),
+                                      color: const Color.fromRGBO(
+                                          25, 118, 210, 1.0),
                                       child: Align(
                                         alignment: Alignment.centerLeft,
                                         child: Padding(
@@ -290,11 +298,11 @@ class _TaskViewState extends State<TaskView> {
                                             child: Text(
                                               widget.user.docSnap!['subtasks']
                                                   [index],
-                                              style: const TextStyle(
-                                                  color: Color.fromRGBO(
+                                              style: TextStyle(
+                                                  color: const Color.fromRGBO(
                                                       255, 255, 255, 1),
                                                   fontWeight: FontWeight.bold,
-                                                  fontSize: 20),
+                                                  fontSize: HEIGHT * 0.00115 * 20),
                                             )),
                                       ));
                                 },
@@ -312,14 +320,18 @@ class _TaskViewState extends State<TaskView> {
   Future openDialog_state() => showDialog(
       context: context,
       builder: (context) => Dialog(
-          insetPadding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.height * 0.02, vertical: MediaQuery.of(context).size.height * 0.3,),
+          insetPadding: EdgeInsets.symmetric(
+            horizontal: MediaQuery.of(context).size.height * 0.02,
+            vertical: MediaQuery.of(context).size.height * 0.3,
+          ),
           child: Container(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset(Myassets.completedImg, scale: MediaQuery.of(context).size.height * 0.006),
+                Image.asset(Myassets.completedImg,
+                    scale: MediaQuery.of(context).size.height * 0.006),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.02,
                 ),
@@ -359,7 +371,7 @@ class _TaskViewState extends State<TaskView> {
                   },
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all<Color>(
-                        Color.fromARGB(217, 245, 245, 95)),
+                        const Color.fromARGB(217, 245, 245, 95)),
                     side: WidgetStateProperty.all<BorderSide>(const BorderSide(
                       color: Color.fromARGB(255, 248, 166, 2),
                       width: 4,
@@ -405,7 +417,7 @@ class _TaskViewState extends State<TaskView> {
         msg: "Document updated successfully!",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
-        backgroundColor: Color.fromARGB(255, 255, 127, 80),
+        backgroundColor: const Color.fromARGB(255, 255, 127, 80),
         textColor: Myassets.colorblack,
         fontSize: 16.0,
       );
@@ -414,7 +426,7 @@ class _TaskViewState extends State<TaskView> {
         msg: "Failed to update document: ${e.toString()}",
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.BOTTOM,
-        backgroundColor: Color.fromARGB(255, 255, 127, 80),
+        backgroundColor: const Color.fromARGB(255, 255, 127, 80),
         textColor: Myassets.colorblack,
         fontSize: 16.0,
       );

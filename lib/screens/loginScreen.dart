@@ -43,7 +43,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ' Welcome Back',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        fontSize: 30,
+                        fontSize: HEIGHT * 0.00115 * 30,
                         color: Theme.of(context).primaryColor,
                       ),
                     ),
@@ -62,7 +62,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     .textTheme
                                     .labelMedium!
                                     .copyWith(
-                                        color: Colors.black38, fontSize: 16),
+                                        color: Colors.black38, fontSize: HEIGHT * 0.00115 * 16),
                                 floatingLabelStyle:
                                     Theme.of(context).textTheme.titleLarge,
                                 icon: Icon(
@@ -87,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     .copyWith(
                                         color: Colors.black38,
                                         fontWeight: FontWeight.w500,
-                                        fontSize: 12),
+                                        fontSize: HEIGHT * 0.00115 * 12),
                                 floatingLabelStyle:
                                     Theme.of(context).textTheme.titleLarge,
                                 icon: Icon(
@@ -138,11 +138,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      const Text(
+                                      Text(
                                         'If you haven\'t an account, please ',
                                         style: TextStyle(
-                                            fontSize: 15,
-                                            color: Color.fromARGB(
+                                            fontSize: HEIGHT * 0.00115 * 15,
+                                            color: const Color.fromARGB(
                                                 255, 6, 108, 74)),
                                       ),
                                       GestureDetector(
@@ -154,11 +154,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                                     const SignupScreen()),
                                           );
                                         },
-                                        child: const Text(
+                                        child: Text(
                                           'signup',
                                           style: TextStyle(
-                                              fontSize: 15,
-                                              color: Color.fromARGB(
+                                              fontSize: HEIGHT * 0.00115 * 15,
+                                              color: const Color.fromARGB(
                                                   255, 0, 53, 36)),
                                         ),
                                       ),

@@ -105,8 +105,8 @@ class _AddTaskState extends State<AddTask> {
                           )),
                 );
               },
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Icon(
                   Iconsax.arrow_circle_left,
                   size: 50,
@@ -127,10 +127,10 @@ class _AddTaskState extends State<AddTask> {
                   alignment: Alignment.topLeft,
                   child: Text(
                     'Hi, ${widget.user.name}',
-                    style: const TextStyle(
-                        color: Color.fromRGBO(255, 255, 255, 1),
+                    style: TextStyle(
+                        color: const Color.fromRGBO(255, 255, 255, 1),
                         fontWeight: FontWeight.bold,
-                        fontSize: 25),
+                        fontSize: HEIGHT * 0.00115 * 25),
                   )),
                   SizedBox(
                         height: HEIGHT * 0.005,
@@ -139,10 +139,10 @@ class _AddTaskState extends State<AddTask> {
                   alignment: Alignment.topLeft,
                   child: Text(
                     '${widget.user.numOfTasks} task(s) today',
-                    style: const TextStyle(
-                        color: Color.fromRGBO(255, 255, 255, 1),
+                    style: TextStyle(
+                        color: const Color.fromRGBO(255, 255, 255, 1),
                         fontWeight: FontWeight.bold,
-                        fontSize: 20),
+                        fontSize: HEIGHT * 0.00115 * 20),
                   ))
             ],
           ),
@@ -160,14 +160,14 @@ class _AddTaskState extends State<AddTask> {
                       SizedBox(
                               height: HEIGHT * 0.02,
                             ),
-                      const Align(
+                      Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
                           'Add a Task',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Myassets.colorblack,
-                              fontSize: 25),
+                              fontSize: HEIGHT * 0.00115 * 25),
                         ),
                       ),
                       SizedBox(
@@ -181,7 +181,7 @@ class _AddTaskState extends State<AddTask> {
                             labelStyle: Theme.of(context)
                                 .textTheme
                                 .labelMedium!
-                                .copyWith(color: Colors.black38, fontSize: 20),
+                                .copyWith(color: Colors.black38, fontSize: HEIGHT * 0.00115 * 20),
                             filled: true,
                             prefixIcon: Icon(
                               Icons.title,
@@ -189,11 +189,11 @@ class _AddTaskState extends State<AddTask> {
                             ),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Myassets.colorgreen, width: 4)),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Myassets.colorgreen, width: 4))),
                       ),
                       SizedBox(
@@ -207,7 +207,7 @@ class _AddTaskState extends State<AddTask> {
                             labelStyle: Theme.of(context)
                                 .textTheme
                                 .labelMedium!
-                                .copyWith(color: Colors.black38, fontSize: 20),
+                                .copyWith(color: Colors.black38, fontSize: HEIGHT * 0.00115 * 20),
                             filled: true,
                             prefixIcon: Icon(
                               Icons.note,
@@ -215,11 +215,11 @@ class _AddTaskState extends State<AddTask> {
                             ),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Myassets.colorgreen, width: 4)),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Myassets.colorgreen, width: 4))),
                       ),
                       SizedBox(
@@ -236,7 +236,7 @@ class _AddTaskState extends State<AddTask> {
                             labelStyle: Theme.of(context)
                                 .textTheme
                                 .labelMedium!
-                                .copyWith(color: Colors.black38, fontSize: 20),
+                                .copyWith(color: Colors.black38, fontSize: HEIGHT * 0.00115 * 20),
                             filled: true,
                             prefixIcon: Icon(
                               Icons.calendar_today,
@@ -244,11 +244,11 @@ class _AddTaskState extends State<AddTask> {
                             ),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Myassets.colorgreen, width: 4)),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Myassets.colorgreen, width: 4))),
                         readOnly: true,
                       ),
@@ -263,7 +263,7 @@ class _AddTaskState extends State<AddTask> {
                             labelStyle: Theme.of(context)
                                 .textTheme
                                 .labelMedium!
-                                .copyWith(color: Colors.black38, fontSize: 20),
+                                .copyWith(color: Colors.black38, fontSize: HEIGHT * 0.00115 * 20),
                             filled: true,
                             suffixIcon: GestureDetector(
                                 onTap: () {
@@ -288,11 +288,11 @@ class _AddTaskState extends State<AddTask> {
                                 )),
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Myassets.colorgreen, width: 4)),
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
+                                borderSide: const BorderSide(
                                     color: Myassets.colorgreen, width: 4))),
                       ),
                       SizedBox(
@@ -320,11 +320,11 @@ class _AddTaskState extends State<AddTask> {
                                         padding: const EdgeInsets.all(10),
                                         child: Text(
                                           subtasks[index],
-                                          style: const TextStyle(
-                                              color: Color.fromRGBO(
+                                          style: TextStyle(
+                                              color: const Color.fromRGBO(
                                                   255, 255, 255, 1),
                                               fontWeight: FontWeight.bold,
-                                              fontSize: 20),
+                                              fontSize: HEIGHT * 0.00115 * 20),
                                         )),
                                   )),
                             );

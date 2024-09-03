@@ -157,36 +157,36 @@ class _DashboardState extends State<Dashboard> {
                                   ConnectionState.waiting &&
                               state == 1) {
                             widget.user.name = 'Waiting...';
-                            return const Align(
+                            return Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
                                   'Waiting...',
                                   style: TextStyle(
                                       color: Myassets.colorwhite,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 25),
+                                      fontSize: HEIGHT * 0.00115 *  25),
                                 ));
                           }
                           if (snapshot.hasError) {
                             widget.user.name = 'Error!';
-                            return const Center(
+                            return Center(
                                 child: Text(
                               'Error!',
                               style: TextStyle(
                                   color: Myassets.colorwhite,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 25),
+                                  fontSize: HEIGHT * 0.00115 *  25),
                             ));
                           }
                           if (!snapshot.hasData || !snapshot.data!.exists) {
                             widget.user.name = 'User not found.';
-                            return const Center(
+                            return Center(
                                 child: Text(
                               'User not found.',
                               style: TextStyle(
                                   color: Myassets.colorwhite,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 25),
+                                  fontSize: HEIGHT * 0.00115 *  25),
                             ));
                           }
 
@@ -200,10 +200,10 @@ class _DashboardState extends State<Dashboard> {
                               alignment: Alignment.topLeft,
                               child: Text(
                                 'Hi, $username',
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: Myassets.colorwhite,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 25),
+                                    fontSize: HEIGHT * 0.00115 *  25),
                               ));
                         }),
                     SizedBox(
@@ -216,37 +216,37 @@ class _DashboardState extends State<Dashboard> {
                                   ConnectionState.waiting &&
                               state == 1) {
                             widget.user.name = 'Waiting...';
-                            return const Align(
+                            return Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
                                   'Waiting...',
                                   style: TextStyle(
                                       color: Myassets.colorwhite,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 20),
+                                      fontSize: HEIGHT * 0.00115 *  20),
                                 ));
                           }
                           if (snapshot.hasError) {
                             widget.user.name = 'Error!';
-                            return const Center(
+                            return Center(
                                 child: Text(
                               'Error!',
                               style: TextStyle(
                                   color: Myassets.colorwhite,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 20),
+                                  fontSize: HEIGHT * 0.00115 *  20),
                             ));
                           }
                           if (!snapshot.hasData) {
                             widget.user.numOfTasks = 0;
-                            return const Align(
+                            return Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
                                   '0 task(s) today',
                                   style: TextStyle(
                                       color: Myassets.colorwhite,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 20),
+                                      fontSize: HEIGHT * 0.00115 *  20),
                                 ));
                           }
 
@@ -257,10 +257,10 @@ class _DashboardState extends State<Dashboard> {
                               alignment: Alignment.topLeft,
                               child: Text(
                                 '$documentCount task(s) today',
-                                style: const TextStyle(
+                                style: TextStyle(
                                     color: Myassets.colorwhite,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 20),
+                                    fontSize: HEIGHT * 0.00115 *  20),
                               ));
                         })
                   ]),
@@ -309,12 +309,12 @@ class _DashboardState extends State<Dashboard> {
                             hintText: 'Search',
                             shadowColor: const WidgetStatePropertyAll(
                                 Myassets.colorwhite),
-                            hintStyle: const WidgetStatePropertyAll(TextStyle(
-                                fontSize: 20,
+                            hintStyle: WidgetStatePropertyAll(TextStyle(
+                                fontSize: HEIGHT * 0.00115 *  20,
                                 color: Myassets.colorgreen,
                                 fontWeight: FontWeight.bold)),
-                            textStyle: const WidgetStatePropertyAll(TextStyle(
-                                fontSize: 20,
+                            textStyle: WidgetStatePropertyAll(TextStyle(
+                                fontSize: HEIGHT * 0.00115 *  20,
                                 color: Myassets.colorgreen,
                                 fontWeight: FontWeight.bold)),
                             backgroundColor: const WidgetStatePropertyAll(
@@ -327,7 +327,7 @@ class _DashboardState extends State<Dashboard> {
                               if (_searchResults.isNotEmpty) {
                                 Container(
                                   color: Colors.grey[200],
-                                  padding: EdgeInsets.symmetric(vertical: 8.0),
+                                  padding: const EdgeInsets.symmetric(vertical: 8.0),
                                   child: Expanded(
                                     child: ListView.builder(
                                       shrinkWrap: true,
@@ -358,14 +358,14 @@ class _DashboardState extends State<Dashboard> {
                       SizedBox(
                         height: HEIGHT * 0.025,
                       ),
-                      const Align(
+                      Align(
                           alignment: Alignment.topLeft,
                           child: Text(
                             'My tasks',
                             style: TextStyle(
                                 color: Myassets.colorblack,
                                 fontWeight: FontWeight.bold,
-                                fontSize: 25),
+                                fontSize: HEIGHT * 0.00115 *  25),
                           )),
                       SizedBox(
                         height: HEIGHT * 0.025,
@@ -388,7 +388,7 @@ class _DashboardState extends State<Dashboard> {
                                 style: TextStyle(
                                     color: color1,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 20),
+                                    fontSize: HEIGHT * 0.00115 *  20),
                               ),
                             ),
                             GestureDetector(
@@ -404,7 +404,7 @@ class _DashboardState extends State<Dashboard> {
                                 style: TextStyle(
                                     color: color2,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 20),
+                                    fontSize: HEIGHT * 0.00115 *  20),
                               ),
                             ),
                             GestureDetector(
@@ -420,7 +420,7 @@ class _DashboardState extends State<Dashboard> {
                                 style: TextStyle(
                                     color: color3,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 20),
+                                    fontSize: HEIGHT * 0.00115 *  20),
                               ),
                             )
                           ],
@@ -433,14 +433,14 @@ class _DashboardState extends State<Dashboard> {
                           future: tasksDocument,
                           builder: (context, snapshot) {
                             if (snapshot.hasError) {
-                              return const Align(
+                              return Align(
                                 alignment: Alignment.bottomCenter,
                                 child: Text(
                                   'Oooops! Something went wrong...',
                                   style: TextStyle(
                                       color: Colors.red,
                                       fontWeight: FontWeight.bold,
-                                      fontSize: 20),
+                                      fontSize: HEIGHT * 0.00115 *  20),
                                 ),
                               );
                             }
@@ -522,8 +522,8 @@ class _DashboardState extends State<Dashboard> {
                                                         Text(
                                                           taskID.toUpperCase(),
                                                           style:
-                                                              const TextStyle(
-                                                            fontSize:
+                                                              TextStyle(
+                                                            fontSize: HEIGHT * 0.00115 * 
                                                                 24.0, // Font size for the task name
                                                             fontWeight:
                                                                 FontWeight.bold,
@@ -550,7 +550,7 @@ class _DashboardState extends State<Dashboard> {
                                                           child: Text(
                                                             formattedDate,
                                                             style: TextStyle(
-                                                              fontSize: 16,
+                                                              fontSize: HEIGHT * 0.00115 *  16,
                                                               fontWeight:
                                                                   FontWeight
                                                                       .bold,
@@ -574,7 +574,7 @@ class _DashboardState extends State<Dashboard> {
                                                               taskID);
                                                         });
                                                       },
-                                                      child: Icon(
+                                                      child: const Icon(
                                                         Icons.delete,
                                                         size: 50,
                                                         color:
@@ -602,7 +602,7 @@ class _DashboardState extends State<Dashboard> {
       builder: (context) => Dialog(
           insetPadding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.height * 0.02, vertical: MediaQuery.of(context).size.height * 0.3,),
           child: Container(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -610,7 +610,7 @@ class _DashboardState extends State<Dashboard> {
                 Icon(
                   Icons.delete_outline,
                   size: MediaQuery.of(context).size.height * 0.13,
-                  color: Color.fromRGBO(25, 118, 210, 1.0),
+                  color: const Color.fromRGBO(25, 118, 210, 1.0),
                 ),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.025,
@@ -621,7 +621,7 @@ class _DashboardState extends State<Dashboard> {
                   },
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all<Color>(
-                        Color.fromARGB(255, 139, 252, 144)),
+                        const Color.fromARGB(255, 139, 252, 144)),
                     side: WidgetStateProperty.all<BorderSide>(const BorderSide(
                       color: Color.fromARGB(252, 8, 234, 19),
                       width: 4,
@@ -652,7 +652,7 @@ class _DashboardState extends State<Dashboard> {
                   },
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all<Color>(
-                        Color.fromARGB(217, 245, 245, 95)),
+                        const Color.fromARGB(217, 245, 245, 95)),
                     side: WidgetStateProperty.all<BorderSide>(const BorderSide(
                       color: Color.fromARGB(255, 248, 166, 2),
                       width: 4,
@@ -668,7 +668,7 @@ class _DashboardState extends State<Dashboard> {
                     style: TextStyle(
                         color: Myassets.colorblack,
                         fontWeight: FontWeight.bold,
-                        fontSize: 25), // Text color
+                        fontSize:25), // Text color
                   ),
                 )
               ],
@@ -683,7 +683,7 @@ class _DashboardState extends State<Dashboard> {
         msg: "Document deleted successfully!",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
-        backgroundColor: Color.fromARGB(255, 255, 127, 80),
+        backgroundColor: const Color.fromARGB(255, 255, 127, 80),
         textColor: Myassets.colorblack,
         fontSize: 16.0,
       );
@@ -700,7 +700,7 @@ class _DashboardState extends State<Dashboard> {
         msg: "Failed to delete document: ${e.toString()}",
         toastLength: Toast.LENGTH_LONG,
         gravity: ToastGravity.BOTTOM,
-        backgroundColor: Color.fromARGB(255, 255, 127, 80),
+        backgroundColor: const Color.fromARGB(255, 255, 127, 80),
         textColor: Myassets.colorblack,
         fontSize: 16.0,
       );
@@ -718,7 +718,7 @@ class _DashboardState extends State<Dashboard> {
     try {
       final querySnapshot = await dbRef
           .where('name', isGreaterThanOrEqualTo: query)
-          .where('name', isLessThanOrEqualTo: query + '\uf8ff')
+          .where('name', isLessThanOrEqualTo: '$query\uf8ff')
           .get();
 
       setState(() {
