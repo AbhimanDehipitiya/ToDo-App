@@ -278,6 +278,7 @@ class _DashboardState extends State<Dashboard> {
                     GestureDetector(
                       onTap: () async {
                         await FirebaseAuth.instance.signOut();
+                        FirebaseFirestore.instance.clearPersistence();
                         Navigator.push(
                           context,
                           MaterialPageRoute(
