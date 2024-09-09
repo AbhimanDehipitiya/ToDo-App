@@ -22,6 +22,9 @@ class _TaskViewState extends State<TaskView> {
   @override
   void initState() {
     super.initState();
+
+    FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: true);
+
     taskDocument = FirebaseFirestore.instance
         .collection('users')
         .doc(widget.user.id)
@@ -31,8 +34,7 @@ class _TaskViewState extends State<TaskView> {
   @override
   Widget build(BuildContext context) {
     final double HEIGHT = MediaQuery.of(context).size.height;
-    final double WIDTH = MediaQuery.of(context).size.width;
-
+    
     return Scaffold(
         backgroundColor: Myassets.colorwhite,
         appBar: AppBar(
