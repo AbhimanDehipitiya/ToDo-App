@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -43,11 +44,7 @@ class _DashboardState extends State<Dashboard> {
 
   //Userdata user1 = Userdata();
 
-  late CollectionReference<Map<String, dynamic>> dbRef = FirebaseFirestore
-      .instance
-      .collection("users")
-      .doc(widget.user.id)
-      .collection("task_list");
+  late CollectionReference<Map<String, dynamic>> dbRef;
 
   late QuerySnapshot<Map<String, dynamic>> querySnapshot;
   late Future<QuerySnapshot<Map<String, dynamic>>> tasksDocument_today;
@@ -62,6 +59,14 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
+
+    FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: true);
+
+      dbRef = FirebaseFirestore
+      .instance
+      .collection("users")
+      .doc(widget.user.id)
+      .collection("task_list");
 
     tasksDocument_today = dbRef
         .where('completed', isEqualTo: false)
@@ -104,6 +109,7 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    
     final double HEIGHT = MediaQuery.of(context).size.height;
     final double WIDTH = MediaQuery.of(context).size.width;
 
@@ -169,14 +175,13 @@ class _DashboardState extends State<Dashboard> {
                           }
                           if (snapshot.hasError) {
                             widget.user.name = 'Error!';
-                            return Center(
-                                child: Text(
+                            return Text(
                               'Error!',
                               style: TextStyle(
                                   color: Myassets.colorwhite,
                                   fontWeight: FontWeight.bold,
                                   fontSize: HEIGHT * 0.00115 *  25),
-                            ));
+                            );
                           }
                           if (!snapshot.hasData || !snapshot.data!.exists) {
                             widget.user.name = 'User not found.';
@@ -272,6 +277,7 @@ class _DashboardState extends State<Dashboard> {
                     GestureDetector(
                       onTap: () async {
                         await FirebaseAuth.instance.signOut();
+                        FirebaseFirestore.instance.clearPersistence();
                         Navigator.push(
                           context,
                           MaterialPageRoute(

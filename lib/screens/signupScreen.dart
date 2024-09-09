@@ -148,6 +148,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                     password: passwordController1.text,
                                   );
                                 String uid = credentials.user!.uid;
+                                FirebaseFirestore.instance.settings = const Settings(persistenceEnabled: true);
                                 await FirebaseFirestore.instance.collection("users").doc(uid).set({
                                   "id": uid,
                                   "userName": nameController.text,
